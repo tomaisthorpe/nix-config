@@ -2,6 +2,10 @@
   pkgs,
   ...
 }: {
+  imports = [
+    ./packages.nix
+  ];
+
   programs = {
     neovim = {
       enable = true;

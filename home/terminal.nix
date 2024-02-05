@@ -12,7 +12,7 @@
     theme = "Catppuccin-Mocha";
     font = {
       name = "Hack Nerd Font";
-      size = 9;
+      size = 8;
     };
 
     settings = {
