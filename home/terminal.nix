@@ -26,4 +26,8 @@
 
   # Similar to autojump and fasd
   programs.zoxide.enable = true;
+
+  home.packages = with pkgs; [
+    fzf
+  ];
 }
