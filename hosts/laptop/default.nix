@@ -11,6 +11,7 @@
 
       ../../modules/system.nix
       ../../modules/fonts.nix
+      ../../modules/1password.nix
     ];
 
   # Bootloader.
