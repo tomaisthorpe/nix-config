@@ -18,6 +18,7 @@
     settings = {
       enable_audio_bell = false;
       tab_bar_edge = "top"; # tab bar on top
+      tab_bar_min_tabs = "0";
     };
   };
 }
