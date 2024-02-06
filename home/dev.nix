@@ -13,6 +13,7 @@
 
     # Javascript
     nodePackages.nodejs
+    nodePackages.yarn
     nodePackages.typescript
     nodePackages.typescript-language-server
 
