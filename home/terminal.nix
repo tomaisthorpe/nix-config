@@ -21,4 +21,9 @@
       tab_bar_min_tabs = "0";
     };
   };
+
+  programs.fish.enable = true;
+
+  # Similar to autojump and fasd
+  programs.zoxide.enable = true;
 }
