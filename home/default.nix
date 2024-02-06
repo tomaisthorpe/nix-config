@@ -8,6 +8,7 @@
     ./terminal.nix
     ./browsers.nix
     ./git.nix
+    ./dev.nix
     ./misc.nix
   ];
 
