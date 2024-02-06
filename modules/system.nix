@@ -108,6 +108,7 @@ in {
   ];
 
   environment.variables.EDITOR = "vim";
+  environment.variables.TERMINAL = "kitty";
 
   nix.settings.experimental-features = "nix-command flakes";
 }
