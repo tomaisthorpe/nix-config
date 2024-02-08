@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
 
       ../../modules/system.nix
+      ../../modules/bluetooth.nix
       ../../modules/fonts.nix
       ../../modules/1password.nix
     ];
