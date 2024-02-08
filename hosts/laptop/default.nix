@@ -13,6 +13,7 @@
       ../../modules/bluetooth.nix
       ../../modules/fonts.nix
       ../../modules/1password.nix
+      ../../modules/steam.nix
     ];
 
   # Bootloader.
