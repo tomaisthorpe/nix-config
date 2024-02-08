@@ -19,5 +19,11 @@
 
     tree-sitter
     nodePackages.prettier
+
+    kubectl
+    kubectx
+    k9s
+    kind
+    tilt
   ];
 }
