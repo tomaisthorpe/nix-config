@@ -91,6 +91,9 @@ in {
     shell = pkgs.fish;
   };
 
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "tom" ];
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
