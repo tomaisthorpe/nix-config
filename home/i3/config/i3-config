@@ -247,3 +247,5 @@ bar {
 # Polybar
 # exec_always --no-startup-id ~/.i3/fix-monitors.sh
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh --forest
+
+exec_always xsetroot -solid "#222222"
