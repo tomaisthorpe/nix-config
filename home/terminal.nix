@@ -28,6 +28,10 @@
     interactiveShellInit = ''
       set fish_greeting # Disable greeting
     '';
+
+    shellAliases = {
+      j = "z";
+    };
   };
 
   # Similar to autojump and fasd
