@@ -9,7 +9,7 @@
     # kitty has catppuccin theme built-in,
     # all the built-in themes are packaged into an extra package named `kitty-themes`
     # and it's installed by home-manager if `theme` is specified.
-    theme = "Catppuccin-Mocha";
+    theme = "Catppuccin-Macchiato";
     font = {
       name = "Hack Nerd Font";
       size = 9;
@@ -22,7 +22,13 @@
     };
   };
 
-  programs.fish.enable = true;
+  programs.fish = {
+    enable = true;
+
+    interactiveShellInit = ''
+      set fish_greeting # Disable greeting
+    '';
+  };
 
   # Similar to autojump and fasd
   programs.zoxide.enable = true;
