@@ -18,5 +18,6 @@
     scrot # screen capture tool used by i3 block lock
     alsa-utils # amixer/alsamixer/etc
     playerctl # media player control
+    autotiling
   ];
 }
