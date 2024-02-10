@@ -3,7 +3,6 @@
   ...
 }: {
   home.packages = with pkgs; [
-    rofi
     polybar
 
     dunst # notification daemon
@@ -20,4 +19,10 @@
     playerctl # media player control
     autotiling
   ];
+
+  programs.rofi = {
+    enable = true;
+    theme = "Arc-Dark";
+    font = "Hack Nerd Font 9";
+  };
 }
