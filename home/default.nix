@@ -30,6 +30,8 @@
     p7zip
     
     ripgrep
+
+    ncdu # disk usage
   ];
 
   # This value determines the home Manager release that your
