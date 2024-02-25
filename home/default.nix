@@ -32,6 +32,7 @@
     ripgrep
 
     ncdu # disk usage
+    cloc
   ];
 
   # This value determines the home Manager release that your
