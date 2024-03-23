@@ -111,7 +111,11 @@ in {
 
     fontconfig
     zlib
+
+    xboxdrv
   ];
+
+  boot.extraModprobeConfig = '' options bluetooth disable_ertm=1 '';
 
   environment.variables.EDITOR = "vim";
   environment.variables.TERMINAL = "kitty";
