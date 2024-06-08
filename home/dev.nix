@@ -25,5 +25,6 @@
     k9s
     kind
     tilt
+    ctlptl
   ];
 }
