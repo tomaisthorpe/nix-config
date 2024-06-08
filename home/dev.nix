@@ -20,6 +20,7 @@
     tree-sitter
     nodePackages.prettier
 
+    docker
     kubectl
     kubectx
     k9s
