@@ -26,5 +26,7 @@
     kind
     tilt
     ctlptl
+
+    postgresql
   ];
 }
