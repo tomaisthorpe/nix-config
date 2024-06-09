@@ -33,6 +33,8 @@
 
     ncdu # disk usage
     cloc
+
+    openssl
   ];
 
   # This value determines the home Manager release that your
