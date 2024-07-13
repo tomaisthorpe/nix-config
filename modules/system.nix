@@ -122,5 +122,8 @@ in {
   environment.variables.EDITOR = "vim";
   environment.variables.TERMINAL = "kitty";
 
+  programs.thunar.enable = true;
+  programs.xfconf.enable = true;
+
   nix.settings.experimental-features = "nix-command flakes";
 }
