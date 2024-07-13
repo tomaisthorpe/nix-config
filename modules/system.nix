@@ -122,6 +122,8 @@ in {
   environment.variables.EDITOR = "vim";
   environment.variables.TERMINAL = "kitty";
 
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
   programs.thunar.enable = true;
   programs.xfconf.enable = true;
 
