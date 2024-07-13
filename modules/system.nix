@@ -122,7 +122,10 @@ in {
   environment.variables.EDITOR = "vim";
   environment.variables.TERMINAL = "kitty";
 
-  services.gvfs.enable = true;
+  services.gvfs = {
+    enable = true;
+    package = lib.mkForce pkgs.gnome3.gvfs;
+  };
   services.tumbler.enable = true;
   programs.thunar.enable = true;
   programs.xfconf.enable = true;
