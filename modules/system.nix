@@ -131,5 +131,7 @@ in {
   programs.thunar.enable = true;
   programs.xfconf.enable = true;
 
+  services.tailscale.enable = true;
+
   nix.settings.experimental-features = "nix-command flakes";
 }
