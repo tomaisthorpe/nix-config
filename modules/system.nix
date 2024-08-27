@@ -130,8 +130,11 @@ in {
   services.tumbler.enable = true;
   programs.thunar.enable = true;
   programs.xfconf.enable = true;
+  
+  security.polkit.enable = true;
 
   services.tailscale.enable = true;
+
 
   nix.settings.experimental-features = "nix-command flakes";
 }
