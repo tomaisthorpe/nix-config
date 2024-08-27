@@ -133,8 +133,10 @@ in {
   
   security.polkit.enable = true;
 
-  services.tailscale.enable = true;
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
 
+  services.tailscale.enable = true;
 
   nix.settings.experimental-features = "nix-command flakes";
 }
