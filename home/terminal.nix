@@ -42,6 +42,8 @@
     nix-direnv.enable = true;
   };
 
+  programs.tmux.enable = true;
+
   home.packages = with pkgs; [
     fzf
   ];
