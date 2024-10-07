@@ -27,13 +27,14 @@ in {
     LC_TIME = "en_GB.UTF-8";
   };
 
+  # use a fake session to skip desktop manager
+  # and let Home Manager take care of the X session
+  services.displayManager.defaultSession = "hm-session";
+
   services.xserver = {
     enable = true;
     displayManager = {
       lightdm.enable = true;
-      # use a fake session to skip desktop manager
-      # and let Home Manager take care of the X session
-      defaultSession = "hm-session";
     };
     desktopManager = {
       runXdgAutostartIfNone = true;
@@ -52,8 +53,10 @@ in {
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "gb";
-    xkbVariant = "";
+    xkb = {
+      layout = "gb";
+      variant = "";
+    };
   };
 
   # Configure console keymap
