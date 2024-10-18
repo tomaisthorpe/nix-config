@@ -33,6 +33,18 @@
   networking.hostName = "tom-desktop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
+  # Configure vertical monitor
+  services.xserver.xrandrHeads = [
+    {
+      output = "DP-2";
+      primary = true;
+    }
+    {
+      output = "DP-0";
+      monitorConfig = "Option \"Rotate\" \"left\"";
+    }
+  ];
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
