@@ -36,6 +36,23 @@
           }        
 	];
       };
+      "desktop" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+
+	      specialArgs = inputs;
+        modules = [
+          ./hosts/desktop
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.extraSpecialArgs = inputs;
+            home-manager.users.tom = import ./home;
+          }        
+	];
+      };
       "vbox" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
