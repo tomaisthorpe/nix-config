@@ -50,6 +50,7 @@
 
             home-manager.extraSpecialArgs = inputs;
             home-manager.users.tom = import ./home;
+	    home-manager.backupFileExtension = "hm-backup";
           }        
 	];
       };
