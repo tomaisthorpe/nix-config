@@ -10,15 +10,16 @@ launch_bar() {
 	# Wait until the processes have been shut down
 	while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-	# Launch the bar
-	if [[ "$style" == "hack" || "$style" == "cuts" ]]; then
-		polybar -q top -c "$dir/$style/config.ini" &
-		polybar -q bottom -c "$dir/$style/config.ini" &
-	elif [[ "$style" == "pwidgets" ]]; then
-		bash "$dir"/pwidgets/launch.sh --main
-	else
-		polybar -q main -c "$dir/$style/config.ini" &	
-	fi
+	# Launch the main bar on the primary monitor
+	for m in $(xrandr --query | grep "primary" | cut -d" " -f1); do
+		MONITOR=$m polybar -q main -c "$dir/$style/config.ini" &	
+	done
+
+	# Launch secondary on any non-primary monitors
+	for n in $(xrandr --query | grep " connected " | grep -v "primary" | cut -d" " -f1); do
+		echo $n
+		MONITOR=$n polybar -q secondary -c "$dir/$style/config.ini" &	
+	done
 }
 
 if [[ "$1" == "--material" ]]; then
