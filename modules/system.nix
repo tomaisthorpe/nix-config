@@ -146,6 +146,8 @@ in {
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
 
+  programs.ssh.startAgent = true;
+
   services.tailscale.enable = true;
 
   nix.settings.experimental-features = "nix-command flakes";
