@@ -134,6 +134,10 @@ in {
   services.avahi.enable = true; # network discovery
   services.tumbler.enable = true; # thumbnails
   programs.thunar.enable = true;
+  programs.thunar.plugins = with pkgs.xfce; [
+    thunar-archive-plugin
+    thunar-volman
+  ];
   programs.xfconf.enable = true;
   
   security.polkit.enable = true;
