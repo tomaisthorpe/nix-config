@@ -31,6 +31,7 @@
 
     shellAliases = {
       j = "z";
+      gap = "git add --patch .";
     };
   };
 
