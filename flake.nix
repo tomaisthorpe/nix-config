@@ -4,6 +4,7 @@
   inputs = {
     # Official NixOS package source, using nixos-24.05 branch here
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # home-manager, used for managing user configuration
     home-manager = {
@@ -17,10 +18,16 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs: 
+    let 
+      system = "x86_64-linux";
+      lib = nixpkgs.lib;
+      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+    in {
     nixosConfigurations = {
-      "laptop" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      "laptop" = lib.nixosSystem {
+        inherit system;
 
 	      specialArgs = inputs;
         modules = [
@@ -36,8 +43,8 @@
           }        
 	];
       };
-      "desktop" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      "desktop" = lib.nixosSystem {
+        inherit system;
 
 	      specialArgs = inputs;
         modules = [
@@ -54,8 +61,8 @@
           }        
 	];
       };
-      "vbox" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      "vbox" = lib.nixosSystem {
+        inherit system;
 
 	      specialArgs = inputs;
         modules = [
