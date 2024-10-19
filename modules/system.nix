@@ -130,7 +130,9 @@ in {
     enable = true;
     package = lib.mkForce pkgs.gnome3.gvfs;
   };
-  services.tumbler.enable = true;
+
+  services.avahi.enable = true; # network discovery
+  services.tumbler.enable = true; # thumbnails
   programs.thunar.enable = true;
   programs.xfconf.enable = true;
   
