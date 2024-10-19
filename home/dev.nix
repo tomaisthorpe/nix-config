@@ -28,5 +28,8 @@
     ctlptl
 
     postgresql
+
+    rustup
+    probe-rs
   ];
 }
