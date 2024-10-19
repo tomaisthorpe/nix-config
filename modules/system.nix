@@ -150,7 +150,7 @@ in {
 
   services.tailscale.enable = true;
 
-  services.udev.extraRules = builtins.readFile ./69-probe-rs.rules;
+  services.udev.extraRules = builtins.readFile ./99-pico.rules;
 
   nix.settings.experimental-features = "nix-command flakes";
 }
