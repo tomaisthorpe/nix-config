@@ -119,6 +119,8 @@ in {
     zlib
 
     xboxdrv
+
+    openocd
   ];
 
   boot.extraModprobeConfig = '' options bluetooth disable_ertm=1 '';
@@ -150,7 +152,7 @@ in {
 
   services.tailscale.enable = true;
 
-  services.udev.extraRules = builtins.readFile ./99-pico.rules;
+  services.udev.extraRules = builtins.readFile ./99-custom.rules;
 
   nix.settings.experimental-features = "nix-command flakes";
 }
