@@ -35,5 +35,6 @@
     python3
     
     go-task
+    sops
   ];
 }
