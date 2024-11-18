@@ -97,6 +97,7 @@ in {
 
   virtualisation.virtualbox.host.enable = true;
   users.extraGroups.vboxusers.members = [ "tom" ];
+  virtualisation.libvirtd.enable = true;
 
   virtualisation.docker.enable = true;
 

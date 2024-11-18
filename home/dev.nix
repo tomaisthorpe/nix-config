@@ -31,5 +31,9 @@
 
     rustup
     probe-rs
+
+    python3
+    
+    go-task
   ];
 }
