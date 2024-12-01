@@ -30,6 +30,11 @@
     prusa-slicer
 
     vlc
+
+    zoom-us
+
+    # games
+    openttd-jgrpp
   ];
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
