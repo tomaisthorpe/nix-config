@@ -36,5 +36,7 @@
     
     go-task
     sops
+
+    elixir
   ];
 }
