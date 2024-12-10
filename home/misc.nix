@@ -37,6 +37,7 @@
     openttd-jgrpp
 
     appimage-run
+    geeqie
   ];
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
