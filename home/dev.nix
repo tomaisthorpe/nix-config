@@ -38,5 +38,7 @@
     sops
 
     elixir
+
+    pipenv
   ];
 }
