@@ -31,7 +31,7 @@
     probe-rs
 
     python3
-    
+
     go-task
     sops
 
@@ -40,5 +40,10 @@
     pipenv
 
     zed-editor
+    code-cursor
+
+    (ollama.overrideAttrs (oldAttrs: {
+      enableCuda = true;
+    }))
   ];
 }
