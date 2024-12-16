@@ -38,5 +38,7 @@
     elixir
 
     pipenv
+
+    zed-editor
   ];
 }
