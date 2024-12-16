@@ -40,11 +40,11 @@
     "polybar-themes": {
       "flake": false,
       "locked": {
-        "lastModified": 1728140462,
-        "narHash": "sha256-JGhXWZamkkErHLlUGuuk9d07E9wVTdpn7DceyHfyl0g=",
+        "lastModified": 1734361272,
+        "narHash": "sha256-JEGDLDCccPpgyxbgeuWhydFw1UOZpF7RlGB6wZTaCNw=",
         "owner": "adi1090x",
         "repo": "polybar-themes",
-        "rev": "daefe3914255e0f518cb78db6a2f51c15e841e9e",
+        "rev": "ea40e3a06eb81c6be15415309c0251b488e1f44f",
         "type": "github"
       },
       "original": {
