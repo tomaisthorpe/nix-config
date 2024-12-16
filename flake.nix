@@ -2,9 +2,8 @@
   description = "Tom's NixOS Flake";
 
   inputs = {
-    # Official NixOS package source, using nixos-24.05 branch here
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Official NixOS package source, using nixos-unstable branch here
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # home-manager, used for managing user configuration
     home-manager = {
@@ -18,12 +17,11 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs: 
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: 
     let 
       system = "x86_64-linux";
       lib = nixpkgs.lib;
       pkgs = nixpkgs.legacyPackages.${system};
-      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     in {
     nixosConfigurations = {
       "laptop" = lib.nixosSystem {
@@ -57,7 +55,7 @@
 
             home-manager.extraSpecialArgs = inputs;
             home-manager.users.tom = import ./home;
-	    home-manager.backupFileExtension = "hm-backup";
+	          home-manager.backupFileExtension = "hm-backup";
           }        
 	];
       };

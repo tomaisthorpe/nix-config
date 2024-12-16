@@ -2,14 +2,12 @@
   pkgs,
   ...
 }: {
-  
   home.packages = with pkgs; [
     cmake
     gnumake
 
     gcc
     llvmPackages.clang-unwrapped
-
 
     # Javascript
     nodePackages.nodejs
