@@ -42,6 +42,8 @@
     zed-editor
     code-cursor
 
+    devenv
+
     (ollama.overrideAttrs (oldAttrs: {
       enableCuda = true;
     }))
