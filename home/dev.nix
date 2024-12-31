@@ -43,6 +43,7 @@
     code-cursor
 
     devenv
+    mise
     flyctl
 
     (ollama.overrideAttrs (oldAttrs: {
