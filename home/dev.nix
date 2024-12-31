@@ -43,6 +43,7 @@
     code-cursor
 
     devenv
+    flyctl
 
     (ollama.overrideAttrs (oldAttrs: {
       enableCuda = true;
