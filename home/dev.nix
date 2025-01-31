@@ -44,7 +44,7 @@
 
     devenv
     mise
-    conda
+    micromamba
     flyctl
 
     (ollama.overrideAttrs (oldAttrs: {
