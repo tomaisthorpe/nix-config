@@ -15,6 +15,7 @@
 
       julia-mono
       dejavu_fonts
+      google-fonts
     ];
   };
 }

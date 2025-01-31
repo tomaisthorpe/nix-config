@@ -44,6 +44,7 @@
 
     devenv
     mise
+    conda
     flyctl
 
     (ollama.overrideAttrs (oldAttrs: {
