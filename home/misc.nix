@@ -11,6 +11,7 @@
 
     # pcb stuff
     kicad
+    freecad
 
     # messaging
     telegram-desktop
