@@ -6,6 +6,7 @@
     # creative
     blender
     inkscape
+    pureref
 
     spotify
 
