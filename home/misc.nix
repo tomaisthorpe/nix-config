@@ -4,9 +4,13 @@
 }: {
   home.packages = with pkgs; [
     # creative
-    blender
+    # blender
     inkscape
     pureref
+
+    (blender.override {
+      cudaSupport = true;
+    })
 
     spotify
 
