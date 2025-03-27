@@ -20,6 +20,7 @@
 
     kubectl
     kubectx
+    krew
     k9s
     kind
     tilt
