@@ -1,15 +1,35 @@
 # Nix Config
 
-This repo contains the Nix code that sets up my NixOS systems. Currently only my laptop and a VM is here, but eventually my desktop will be based on NixOS too.
+This repository contains my personal NixOS configuration files. It manages the setups for my machines and provides a reproducible environment across my systems.
 
-The setup uses i3 as it's window manager and my neovim config is also here! I don't include extensions for Firefox/VSCode/etc in my Nix config as I rely on the various accounts to sync settings. 
+## Hosts
+| Name | Hardware | Description |
+| --- | --- | --- |
+| `laptop` | Thinkpad X1 Carbon | Daily light-use |
+| `desktop` | Custom build with NVIDIA GPU | Main workstation for development and gaming |
+| `vm` | VirtualBox | Testing environment |
+
+## Features
+- **Window Manager:** i3
+- **Terminal:** kitty
+- **Shell:** fish
+- **Editors:** Neovim, Cursor, VSCode
+- **Gaming:** Steam, OpenTTD 🚂
+- **Various apps:** KiCad, FreeCAD, Blender, Inkscape
+
 
 ## How to deploy
 
-**You shouldn't deploy this. The hardware configuration is tied to my machines and my setup is probably not what you want. However, it may be useful as a reference.**
+> [!WARNING]
+> You shouldn't deploy this. The hardware configuration is tied to my machines and my setup is probably not what you want. However, it may be useful as a reference.
 
 ```bash
+# Deploy to laptop
 sudo nixos-rebuild switch --flake .#laptop
+
+# Deploy to desktop
+sudo nixos-rebuild switch --flake .#desktop
+
 ```
 
 ## Resources
