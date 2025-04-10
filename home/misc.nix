@@ -21,6 +21,7 @@
     # messaging
     telegram-desktop
     discord
+    signal-desktop
 
     # devtools
     ripgrep
