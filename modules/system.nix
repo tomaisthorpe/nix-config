@@ -156,4 +156,7 @@ in {
   nix.settings.experimental-features = "nix-command flakes";
 
   programs.npm.enable = true;
+
+  xdg.portal.enable = true;
+  services.flatpak.enable = true;
 }
