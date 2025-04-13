@@ -4,7 +4,6 @@
 }: {
   home.packages = with pkgs; [
     # creative
-    # blender
     inkscape
     pureref
 
@@ -12,7 +11,7 @@
       cudaSupport = true;
     })
 
-    spotify
+    prusa-slicer
 
     # pcb stuff
     kicad
@@ -33,9 +32,9 @@
     flameshot
     pavucontrol
     pulsemixer
+    spotify
 
-    prusa-slicer
-
+    kdePackages.okular
     vlc
 
     zoom-us
