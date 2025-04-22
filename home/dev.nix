@@ -28,6 +28,8 @@
 
     postgresql
 
+    go
+
     rustup
     probe-rs
 

@@ -1,6 +1,7 @@
 return {
     "nvim-neotest/neotest",
     dependencies = {
+        "nvim-neotest/nvim-nio",
         "nvim-lua/plenary.nvim",
         "antoinemadec/FixCursorHold.nvim",
         "nvim-treesitter/nvim-treesitter",
@@ -33,9 +34,9 @@ return {
             }
         })
 
-        require('which-key').register {
-            ['<leader>t'] = { name = 'Tests', _ = 'which_key_ignore' },
-        }
+        require('which-key').add({
+            { '<leader>t', group = 'Tests' },
+        })
 
         local nt = require("neotest")
         vim.keymap.set("n", "<leader>tt", function() nt.run.run() end, { desc = 'Run Nearest Test' })

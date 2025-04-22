@@ -10,9 +10,10 @@ return {
     },
     config = function()
         -- document existing key chains
-        require('which-key').register {
-            ['<leader>x'] = { name = 'Diagnostics', _ = 'which_key_ignore' },
-        }
+        require('which-key').add({
+            { '<leader>x', group = 'Diagnostics' },
+        })
+        
         vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end, { desc = 'Toggle Trouble' })
         vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end,
             { desc = 'Toggle Workspace Trouble' })
