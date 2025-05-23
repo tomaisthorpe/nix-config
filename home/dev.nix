@@ -54,4 +54,8 @@
       enableCuda = true;
     }))
   ];
+
+  home.sessionPath = [
+    "/home/tom/.cargo/bin"
+  ];
 }
