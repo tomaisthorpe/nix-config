@@ -11,6 +11,8 @@
       cudaSupport = true;
     })
 
+    vcv-rack
+
     prusa-slicer
 
     # pcb stuff

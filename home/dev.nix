@@ -46,6 +46,7 @@
     code-cursor
 
     devenv
+    asdf-vm
     mise
     micromamba
     flyctl
