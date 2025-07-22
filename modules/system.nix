@@ -147,8 +147,6 @@ in {
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
 
-  programs.ssh.startAgent = true;
-
   services.tailscale.enable = true;
 
   services.udev.extraRules = builtins.readFile ./99-custom.rules;
