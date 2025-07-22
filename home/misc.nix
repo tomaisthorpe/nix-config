@@ -4,12 +4,11 @@
 }: {
   home.packages = with pkgs; [
     # creative
-    inkscape
-    pureref
+    # inkscape
 
-    (blender.override {
-      cudaSupport = true;
-    })
+    # (blender.override {
+    #   cudaSupport = true;
+    # })
 
     vcv-rack
 
@@ -23,9 +22,6 @@
     telegram-desktop
     discord
     signal-desktop
-
-    # devtools
-    ripgrep
 
     # notes
     obsidian

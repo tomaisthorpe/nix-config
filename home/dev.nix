@@ -32,6 +32,7 @@
 
     rustup
     probe-rs
+    openocd
 
     python3
 
@@ -41,6 +42,7 @@
     elixir
 
     pipenv
+    ripgrep
 
     zed-editor
     code-cursor

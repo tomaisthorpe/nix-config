@@ -28,8 +28,6 @@
     unzip
     p7zip
     
-    ripgrep
-
     ncdu # disk usage
     cloc
 
