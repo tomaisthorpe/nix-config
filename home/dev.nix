@@ -45,6 +45,8 @@
     zed-editor
     code-cursor
 
+    yaak
+
     devenv
     asdf-vm
     mise
