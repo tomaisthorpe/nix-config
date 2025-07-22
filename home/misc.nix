@@ -1,27 +1,34 @@
 {
   pkgs,
+  isDesktop ? false,  # Add the parameter with default value
   ...
 }: {
-  home.packages = with pkgs; [
+  home.packages = with pkgs; ([
+    # archives
+    zip
+    xz
+    unzip
+    p7zip
+    
+    ncdu # disk usage
+    cloc
+
+    openssl
     # creative
-    # inkscape
-
-    # (blender.override {
-    #   cudaSupport = true;
-    # })
-
-    vcv-rack
+    inkscape
 
     prusa-slicer
 
     # pcb stuff
     kicad
-    freecad
 
     # messaging
     telegram-desktop
     discord
     signal-desktop
+
+    # devtools
+    ripgrep
 
     # notes
     obsidian
@@ -43,7 +50,16 @@
     appimage-run
     geeqie
     inotify-tools
-  ];
+  ] 
+  # Desktop-only packages
+  ++ pkgs.lib.optionals isDesktop [
+    vcv-rack
+    freecad
+
+    (blender.override {
+      cudaSupport = true;
+    })
+  ]);
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
   # Install fonts at system-level, not user-level

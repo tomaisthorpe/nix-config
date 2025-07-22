@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, isDesktop ? false, ... }:
 {
   imports = [
     ./editors
@@ -20,20 +20,6 @@
     "Xft.dpi" = 96;
   };
 
-  # Packages that should be installed to the user profile.
-  home.packages = with pkgs; [
-    # archives
-    zip
-    xz
-    unzip
-    p7zip
-    
-    ncdu # disk usage
-    cloc
-
-    openssl
-  ];
-
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new home Manager release introduces backwards
@@ -46,5 +32,4 @@
 
   # Let home Manager install and manage itself.
   programs.home-manager.enable = true;
-
 }

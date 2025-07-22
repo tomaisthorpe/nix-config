@@ -50,14 +50,7 @@
     yaak
 
     devenv
-    asdf-vm
-    mise
-    micromamba
     flyctl
-
-    (ollama.overrideAttrs (oldAttrs: {
-      enableCuda = true;
-    }))
   ];
 
   home.sessionPath = [
