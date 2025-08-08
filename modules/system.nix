@@ -116,6 +116,8 @@ in {
 
     fontconfig
     zlib
+
+    sbctl
   ];
 
   boot.supportedFilesystems = [ "ntfs" ];
