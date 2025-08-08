@@ -11,13 +11,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.2";
+
+      # Optional but recommended to limit the size of your system closure.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     polybar-themes = {
       url = "github:adi1090x/polybar-themes";
       flake = false;
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: 
+  outputs = { self, nixpkgs, home-manager, lanzaboote, ... }@inputs: 
     let 
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -46,6 +53,8 @@
 
 	      specialArgs = inputs;
         modules = [
+          lanzaboote.nixosModules.lanzaboote
+
           ./hosts/desktop
 
           home-manager.nixosModules.home-manager
