@@ -20,7 +20,7 @@
     prusa-slicer
 
     # pcb stuff
-    kicad
+    # kicad
 
     # messaging
     telegram-desktop
@@ -56,9 +56,9 @@
     vcv-rack
     freecad
 
-    (blender.override {
-      cudaSupport = true;
-    })
+    # (blender.override {
+    #   cudaSupport = true;
+    # })
   ]);
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
