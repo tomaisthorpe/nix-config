@@ -32,9 +32,6 @@ return {
         "goimports",
         "golangci-lint",
         "delve",
-
-        "rust-analyzer",
-        "rustfmt",
       },
     },
   },
