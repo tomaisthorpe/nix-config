@@ -20,7 +20,7 @@
     prusa-slicer
 
     # pcb stuff
-    # kicad
+    kicad
 
     # messaging
     telegram-desktop
