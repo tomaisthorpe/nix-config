@@ -59,6 +59,8 @@
     # (blender.override {
     #   cudaSupport = true;
     # })
+
+    cudaPackages.cudatoolkit
   ]);
 
   # allow fontconfig to discover fonts and configurations installed through home.packages

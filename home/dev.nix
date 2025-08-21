@@ -16,7 +16,7 @@
     # nodePackages.typescript-language-server
 
     tree-sitter
-    nodePackages.prettier
+    # nodePackages.prettier
 
     kubectl
     kubectx
