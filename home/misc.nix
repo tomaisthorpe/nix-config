@@ -14,8 +14,10 @@
     cloc
 
     openssl
+
     # creative
     inkscape
+    gimp3
 
     prusa-slicer
 
