@@ -51,6 +51,7 @@
 
     devenv
     flyctl
+    lazygit
   ];
 
   home.sessionPath = [
