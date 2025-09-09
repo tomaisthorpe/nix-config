@@ -156,4 +156,10 @@ in {
 
   xdg.portal.enable = true;
   services.flatpak.enable = true;
+
+  services.syncthing = {
+      enable = true;
+      user = "tom";
+      openDefaultPorts = true;
+    };
 }
