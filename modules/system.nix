@@ -158,8 +158,10 @@ in {
   services.flatpak.enable = true;
 
   services.syncthing = {
-      enable = true;
-      user = "tom";
-      openDefaultPorts = true;
-    };
+    enable = true;
+    user = "tom";
+    openDefaultPorts = true;
+    dataDir = "/home/tom/Documents";
+    configDir = "/home/tom/.config/syncthing";
+  };
 }

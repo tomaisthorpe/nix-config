@@ -170,3 +170,5 @@ SUBSYSTEM=="usb", \
     GROUP="plugdev"
 
 SUBSYSTEM=="usb", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="000c", MODE="0666"
+
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0666", TAG+="uaccess", TAG+="udev-acl"
