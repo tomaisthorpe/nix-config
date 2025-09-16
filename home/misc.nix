@@ -38,6 +38,7 @@
     # misc
     flameshot
     pavucontrol
+    pulseaudio
     pulsemixer
     spotify
 
