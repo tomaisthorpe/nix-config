@@ -14,6 +14,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.2";
 
@@ -34,6 +46,9 @@
       home-manager,
       lanzaboote,
       nix-darwin,
+      nix-homebrew,
+      homebrew-core,
+      homebrew-cask,
       ...
     }@inputs:
     let
@@ -112,6 +127,21 @@
         specialArgs = inputs;
         system = "aarch64-darwin";
         modules = [
+           nix-homebrew.darwinModules.nix-homebrew
+           {
+             nix-homebrew = {
+               enable = true;
+               user = "tom";
+
+               taps = {
+                 "homebrew/homebrew-core" = homebrew-core;
+                 "homebrew/homebrew-cask" = homebrew-cask;
+               };
+
+               mutableTaps = false;
+             };
+           }
+           ./modules/homebrew.nix
           home-manager.darwinModules.home-manager
           {
             system.stateVersion = 6;

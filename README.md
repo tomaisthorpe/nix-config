@@ -30,6 +30,8 @@ sudo nixos-rebuild switch --flake .#laptop
 # Deploy to desktop
 sudo nixos-rebuild switch --flake .#desktop
 
+# Deploy to darwin
+sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dev/nix-config/flake.nix
 ```
 
 ## Resources
