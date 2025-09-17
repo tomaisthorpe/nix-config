@@ -17,6 +17,7 @@
 
     tree-sitter
     # nodePackages.prettier
+    nixfmt
 
     kubectl
     kubectx
