@@ -44,7 +44,6 @@
     pipenv
     ripgrep
 
-    zed-editor
     code-cursor
 
     yaak

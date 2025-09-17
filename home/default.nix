@@ -1,24 +1,16 @@
-{ config, pkgs, isDesktop ? false, ... }:
+{ config, pkgs, lib, isDesktop ? false, isLinux ? true, ... }:
 {
   imports = [
     ./editors
-    ./i3
-
     ./terminal.nix
     ./browsers.nix
     ./git.nix
     ./dev.nix
     ./misc.nix
-  ];
+  ] ++ lib.optionals isLinux [ ./linux.nix ];
 
   home.username = "tom";
   home.homeDirectory = "/home/tom";
-
-  # Set cursor size and dpi for 4k monitor
-  xresources.properties = {
-    "Xcursor.size" = 16;
-    "Xft.dpi" = 96;
-  };
 
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage

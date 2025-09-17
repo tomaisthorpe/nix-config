@@ -43,7 +43,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            home-manager.extraSpecialArgs = inputs // { isDesktop = false; };
+            home-manager.extraSpecialArgs = inputs // { isDesktop = false; isLinux = true; };
             home-manager.users.tom = import ./home;
           }        
 	];
@@ -62,7 +62,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            home-manager.extraSpecialArgs = inputs // { isDesktop = true; };
+            home-manager.extraSpecialArgs = inputs // { isDesktop = true; isLinux = true; };
             home-manager.users.tom = import ./home;
 	          home-manager.backupFileExtension = "hm-backup";
           }        
@@ -80,11 +80,11 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            home-manager.extraSpecialArgs = inputs // { isDesktop = false; };
+            home-manager.extraSpecialArgs = inputs // { isDesktop = false; isLinux = true; };
             home-manager.users.tom = import ./home;
           }        
 	];
-      };
     };
   };
+};
 }
