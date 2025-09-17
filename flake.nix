@@ -24,67 +24,84 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, lanzaboote, ... }@inputs: 
-    let 
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      lanzaboote,
+      ...
+    }@inputs:
+    let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
       pkgs = nixpkgs.legacyPackages.${system};
-    in {
-    nixosConfigurations = {
-      "laptop" = lib.nixosSystem {
-        inherit system;
+    in
+    {
+      nixosConfigurations = {
+        "laptop" = lib.nixosSystem {
+          inherit system;
 
-	      specialArgs = inputs;
-        modules = [
-          ./hosts/laptop
+          specialArgs = inputs;
+          modules = [
+            ./hosts/laptop
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
 
-            home-manager.extraSpecialArgs = inputs // { isDesktop = false; isLinux = true; };
-            home-manager.users.tom = import ./home;
-          }        
-	];
+              home-manager.extraSpecialArgs = inputs // {
+                isDesktop = false;
+                isLinux = true;
+              };
+              home-manager.users.tom = import ./home;
+            }
+          ];
+        };
+        "desktop" = lib.nixosSystem {
+          inherit system;
+
+          specialArgs = inputs;
+          modules = [
+            lanzaboote.nixosModules.lanzaboote
+
+            ./hosts/desktop
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+
+              home-manager.extraSpecialArgs = inputs // {
+                isDesktop = true;
+                isLinux = true;
+              };
+              home-manager.users.tom = import ./home;
+              home-manager.backupFileExtension = "hm-backup";
+            }
+          ];
+        };
+        "vbox" = lib.nixosSystem {
+          inherit system;
+
+          specialArgs = inputs;
+          modules = [
+            ./hosts/vbox
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+
+              home-manager.extraSpecialArgs = inputs // {
+                isDesktop = false;
+                isLinux = true;
+              };
+              home-manager.users.tom = import ./home;
+            }
+          ];
+        };
       };
-      "desktop" = lib.nixosSystem {
-        inherit system;
-
-	      specialArgs = inputs;
-        modules = [
-          lanzaboote.nixosModules.lanzaboote
-
-          ./hosts/desktop
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.extraSpecialArgs = inputs // { isDesktop = true; isLinux = true; };
-            home-manager.users.tom = import ./home;
-	          home-manager.backupFileExtension = "hm-backup";
-          }        
-	];
-      };
-      "vbox" = lib.nixosSystem {
-        inherit system;
-
-	      specialArgs = inputs;
-        modules = [
-          ./hosts/vbox
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.extraSpecialArgs = inputs // { isDesktop = false; isLinux = true; };
-            home-manager.users.tom = import ./home;
-          }        
-	];
     };
-  };
-};
 }

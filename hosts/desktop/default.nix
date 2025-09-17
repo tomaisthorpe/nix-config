@@ -2,20 +2,25 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      
-      ../../modules/nvidia.nix
-      ../../modules/system.nix
-      ../../modules/bluetooth.nix
-      ../../modules/fonts.nix
-      ../../modules/1password.nix
-      ../../modules/steam.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+
+    ../../modules/nvidia.nix
+    ../../modules/system.nix
+    ../../modules/bluetooth.nix
+    ../../modules/fonts.nix
+    ../../modules/1password.nix
+    ../../modules/steam.nix
+  ];
 
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
@@ -29,7 +34,8 @@
 
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-18c3967d-eed4-4c4d-b08e-1f47ddfc6421".device = "/dev/disk/by-uuid/18c3967d-eed4-4c4d-b08e-1f47ddfc6421";
+  boot.initrd.luks.devices."luks-18c3967d-eed4-4c4d-b08e-1f47ddfc6421".device =
+    "/dev/disk/by-uuid/18c3967d-eed4-4c4d-b08e-1f47ddfc6421";
   networking.hostName = "tom-desktop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 

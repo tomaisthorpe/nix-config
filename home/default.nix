@@ -1,4 +1,11 @@
-{ config, pkgs, lib, isDesktop ? false, isLinux ? true, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  isDesktop ? false,
+  isLinux ? true,
+  ...
+}:
 {
   imports = [
     ./editors
@@ -7,7 +14,8 @@
     ./git.nix
     ./dev.nix
     ./misc.nix
-  ] ++ lib.optionals isLinux [ ./linux.nix ];
+  ]
+  ++ lib.optionals isLinux [ ./linux.nix ];
 
   home.username = "tom";
   home.homeDirectory = "/home/tom";

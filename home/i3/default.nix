@@ -3,7 +3,8 @@
   lib,
   polybar-themes,
   ...
-}: {
+}:
+{
   imports = [
     ./packages.nix
   ];

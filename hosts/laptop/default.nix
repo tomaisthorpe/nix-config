@@ -5,16 +5,16 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      ../../modules/system.nix
-      ../../modules/bluetooth.nix
-      ../../modules/fonts.nix
-      ../../modules/1password.nix
-      ../../modules/steam.nix
-    ];
+    ../../modules/system.nix
+    ../../modules/bluetooth.nix
+    ../../modules/fonts.nix
+    ../../modules/1password.nix
+    ../../modules/steam.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

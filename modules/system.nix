@@ -1,14 +1,16 @@
 {
-    pkgs,
-    lib,
-    ...
-}: let
-    username = "tom";
-in {
+  pkgs,
+  lib,
+  ...
+}:
+let
+  username = "tom";
+in
+{
   # Enable networking
   networking.networkmanager.enable = true;
   networking.firewall.enable = true;
-  
+
   # Set your time zone.
   time.timeZone = "Europe/London";
 
@@ -90,7 +92,11 @@ in {
   users.users.tom = {
     isNormalUser = true;
     description = "Tom";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+    ];
     shell = pkgs.fish;
   };
 
@@ -104,7 +110,7 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   # Remove when obsidian is updated
-  nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"];
+  nixpkgs.config.permittedInsecurePackages = [ "electron-25.9.0" ];
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
@@ -121,7 +127,7 @@ in {
   ];
 
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.extraModprobeConfig = '' options bluetooth disable_ertm=1 '';
+  boot.extraModprobeConfig = ''options bluetooth disable_ertm=1 '';
 
   environment.variables.EDITOR = "vim";
   environment.variables.TERMINAL = "kitty";
@@ -140,7 +146,7 @@ in {
   ];
   programs.file-roller.enable = true;
   programs.xfconf.enable = true;
-  
+
   security.polkit.enable = true;
 
   services.gnome.gnome-keyring.enable = true;

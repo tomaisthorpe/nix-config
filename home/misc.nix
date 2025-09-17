@@ -1,70 +1,75 @@
 {
   pkgs,
-  isDesktop ? false,  # Add the parameter with default value
+  isDesktop ? false, # Add the parameter with default value
   ...
-}: {
-  home.packages = with pkgs; ([
-    # archives
-    zip
-    xz
-    unzip
-    p7zip
-    
-    ncdu # disk usage
-    cloc
+}:
+{
+  home.packages =
+    with pkgs;
+    (
+      [
+        # archives
+        zip
+        xz
+        unzip
+        p7zip
 
-    openssl
+        ncdu # disk usage
+        cloc
 
-    # creative
-    inkscape
-    gimp3
+        openssl
 
-    prusa-slicer
+        # creative
+        inkscape
+        gimp3
 
-    # pcb stuff
-    kicad
+        prusa-slicer
 
-    # messaging
-    telegram-desktop
-    discord
-    signal-desktop
+        # pcb stuff
+        kicad
 
-    # devtools
-    ripgrep
+        # messaging
+        telegram-desktop
+        discord
+        signal-desktop
 
-    # notes
-    obsidian
+        # devtools
+        ripgrep
 
-    # misc
-    flameshot
-    pavucontrol
-    pulseaudio
-    pulsemixer
-    spotify
+        # notes
+        obsidian
 
-    kdePackages.okular
-    vlc
+        # misc
+        flameshot
+        pavucontrol
+        pulseaudio
+        pulsemixer
+        spotify
 
-    zoom-us
+        kdePackages.okular
+        vlc
 
-    # games
-    openttd-jgrpp
+        zoom-us
 
-    appimage-run
-    geeqie
-    inotify-tools
-  ] 
-  # Desktop-only packages
-  ++ pkgs.lib.optionals isDesktop [
-    vcv-rack
-    freecad
+        # games
+        openttd-jgrpp
 
-    # (blender.override {
-    #   cudaSupport = true;
-    # })
+        appimage-run
+        geeqie
+        inotify-tools
+      ]
+      # Desktop-only packages
+      ++ pkgs.lib.optionals isDesktop [
+        vcv-rack
+        freecad
 
-    cudaPackages.cudatoolkit
-  ]);
+        # (blender.override {
+        #   cudaSupport = true;
+        # })
+
+        cudaPackages.cudatoolkit
+      ]
+    );
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
   # Install fonts at system-level, not user-level
