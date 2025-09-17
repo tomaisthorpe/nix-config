@@ -8,11 +8,20 @@
 }:
 {
   imports = [
+    ./editors
   ]
-  ++ lib.optionals isLinux [ ./linux.nix ];
+  ++ lib.optionals isLinux [ ./linux.nix ]
+  ++ lib.optionals (isLinux == false) [ ./darwin.nix ];
 
   home.username = "tom";
-  home.homeDirectory = "/home/tom";
+  
+  # Set homeDirectory based on platform - use mkForce to override any conflicting definitions
+  home.homeDirectory = lib.mkForce (
+    if isLinux then 
+      "/home/tom"
+    else 
+      "/Users/tom"
+  );
 
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage

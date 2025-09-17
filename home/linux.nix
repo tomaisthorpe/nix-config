@@ -1,7 +1,7 @@
 { lib, pkgs, ... }:
 {
+
   imports = [
-    ./editors
     ./i3
     ./browsers.nix
     ./dev.nix

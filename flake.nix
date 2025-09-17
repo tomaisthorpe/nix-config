@@ -5,6 +5,9 @@
     # Official NixOS package source, using nixos-unstable branch here
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     # home-manager, used for managing user configuration
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -30,6 +33,7 @@
       nixpkgs,
       home-manager,
       lanzaboote,
+      nix-darwin,
       ...
     }@inputs:
     let
@@ -102,6 +106,32 @@
             }
           ];
         };
+      };
+
+      darwinConfigurations."Toms-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+        specialArgs = inputs;
+        system = "aarch64-darwin";
+        modules = [
+          home-manager.darwinModules.home-manager
+          {
+            system.stateVersion = 6;
+            
+            # Disable nix-darwin's Nix management to work with Determinate
+            nix.enable = false;
+            
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.extraSpecialArgs = inputs // {
+              isDesktop = false;
+              isLinux = false;
+            };
+            home-manager.users.tom = import ./home;
+          }
+          
+          # Allow unfree packages
+          { nixpkgs.config.allowUnfree = true; }
+        ];
       };
     };
 }
