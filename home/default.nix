@@ -8,12 +8,6 @@
 }:
 {
   imports = [
-    ./editors
-    ./terminal.nix
-    ./browsers.nix
-    ./git.nix
-    ./dev.nix
-    ./misc.nix
   ]
   ++ lib.optionals isLinux [ ./linux.nix ];
 

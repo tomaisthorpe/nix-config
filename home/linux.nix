@@ -1,7 +1,13 @@
 { lib, pkgs, ... }:
 {
   imports = [
+    ./editors
     ./i3
+    ./browsers.nix
+    ./dev.nix
+    ./git.nix
+    ./misc.nix
+    ./terminal.nix
   ];
 
   # Linux-specific X resources
