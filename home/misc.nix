@@ -57,6 +57,8 @@
         appimage-run
         geeqie
         inotify-tools
+
+        bind
       ]
       # Desktop-only packages
       ++ pkgs.lib.optionals isDesktop [
