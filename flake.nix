@@ -145,6 +145,7 @@
           home-manager.darwinModules.home-manager
           {
             system.stateVersion = 6;
+            system.primaryUser = "tom";
             
             # Disable nix-darwin's Nix management to work with Determinate
             nix.enable = false;

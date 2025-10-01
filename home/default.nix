@@ -9,6 +9,7 @@
 {
   imports = [
     ./editors
+    ./terminal.nix
   ]
   ++ lib.optionals isLinux [ ./linux.nix ]
   ++ lib.optionals (isLinux == false) [ ./darwin.nix ];
