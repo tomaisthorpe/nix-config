@@ -8,6 +8,8 @@
     brews = [
       "lazygit"
       "pinentry-mac"
+      "qemu"
+      "podman"
     ];
 
     taps = [
