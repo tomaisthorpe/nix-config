@@ -10,10 +10,15 @@
       "pinentry-mac"
     ];
 
+    taps = [
+      "nikitabobko/tap"
+    ];
+
     casks = [
       "spotify"
       "ghostty"
       "slack"
+      "aerospace"
     ];
   };
 
