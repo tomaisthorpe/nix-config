@@ -10,6 +10,7 @@
       "pinentry-mac"
       "qemu"
       "podman"
+      "protobuf"
     ];
 
     taps = [
