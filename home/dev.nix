@@ -33,7 +33,7 @@
     go
 
     rustup
-    probe-rs
+    probe-rs-tools
     openocd
 
     python3

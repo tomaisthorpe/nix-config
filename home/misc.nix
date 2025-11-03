@@ -65,7 +65,7 @@
         vcv-rack
         freecad
 
-        godotPackages_4_5.godot
+        godot
 
         # (blender.override {
         #   cudaSupport = true;
