@@ -150,6 +150,7 @@ in
   programs.xfconf.enable = true;
 
   security.polkit.enable = true;
+  programs.gnupg.agent.enable = true;
 
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
