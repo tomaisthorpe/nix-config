@@ -126,6 +126,7 @@ in
     zlib
 
     sbctl
+    file-roller
   ];
 
   boot.supportedFilesystems = [ "ntfs" ];
@@ -146,7 +147,6 @@ in
     thunar-archive-plugin
     thunar-volman
   ];
-  programs.file-roller.enable = true;
   programs.xfconf.enable = true;
 
   security.polkit.enable = true;
