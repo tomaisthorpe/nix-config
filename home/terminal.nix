@@ -20,6 +20,12 @@
       tab_bar_edge = "top"; # tab bar on top
       tab_bar_min_tabs = "0";
     };
+
+    # Open new windows/tabs in same directory as current window
+    extraConfig = ''
+      map ctrl+shift+enter new_os_window_with_cwd
+      map ctrl+shift+t new_tab_with_cwd
+    '';
   };
 
   programs.fish = {
