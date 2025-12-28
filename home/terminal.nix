@@ -83,5 +83,40 @@
     enable = true;
     enableFishIntegration = true;
     enableZshIntegration = true;
+
+    defaultOptions = [
+      "--height 40%"
+      "--border"
+      "--cycle"
+    ];
+
+    # Ctrl-T (file search)
+    fileWidgetOptions = [
+      "--preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+      "--preview-window 'right:50%:hidden'"
+      "--bind 'ctrl-/:toggle-preview'"
+      "--bind 'ctrl-u:preview-up,ctrl-d:preview-down'"
+    ];
+
+    # Ctrl-R (history search)
+    historyWidgetOptions = [
+      "--preview 'echo {}'"
+      "--preview-window 'down:3:hidden:wrap'"
+      "--bind 'ctrl-/:toggle-preview'"
+    ];
+
+    # Alt-C (cd to directory)
+    changeDirWidgetOptions = [
+      "--preview 'ls -la {}'"
+      "--preview-window 'right:50%:hidden'"
+      "--bind 'ctrl-/:toggle-preview'"
+    ];
+  };
+
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "Catppuccin Mocha";
+    };
   };
 }
