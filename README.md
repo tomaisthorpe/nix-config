@@ -3,20 +3,20 @@
 This repository contains my personal NixOS configuration files. It manages the setups for my machines and provides a reproducible environment across my systems.
 
 ## Hosts
-| Name | Hardware | Description |
-| --- | --- | --- |
-| `laptop` | Thinkpad X1 Carbon | Daily light-use |
+
+| Name      | Hardware                     | Description                                 |
+| --------- | ---------------------------- | ------------------------------------------- |
+| `laptop`  | Thinkpad X1 Carbon           | Daily light-use                             |
 | `desktop` | Custom build with NVIDIA GPU | Main workstation for development and gaming |
-| `vm` | VirtualBox | Testing environment |
 
 ## Features
+
 - **Window Manager:** i3
 - **Terminal:** kitty
 - **Shell:** fish
 - **Editors:** Neovim, Cursor, VSCode
 - **Gaming:** Steam, OpenTTD 🚂
 - **Various apps:** KiCad, FreeCAD, Blender, Inkscape
-
 
 ## How to deploy
 

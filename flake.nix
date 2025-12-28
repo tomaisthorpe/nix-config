@@ -101,26 +101,6 @@
             }
           ];
         };
-        "vbox" = lib.nixosSystem {
-          inherit system;
-
-          specialArgs = inputs;
-          modules = [
-            ./hosts/vbox
-
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-
-              home-manager.extraSpecialArgs = inputs // {
-                isDesktop = false;
-                isLinux = true;
-              };
-              home-manager.users.tom = import ./home;
-            }
-          ];
-        };
       };
 
       darwinConfigurations."Toms-MacBook-Pro" = nix-darwin.lib.darwinSystem {
