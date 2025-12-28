@@ -107,9 +107,6 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Remove when obsidian is updated
-  nixpkgs.config.permittedInsecurePackages = [ "electron-25.9.0" ];
-
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
