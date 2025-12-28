@@ -123,6 +123,8 @@ in
   ];
 
   boot.supportedFilesystems = [ "ntfs" ];
+
+  # Required for Xbox controllers to connect properly
   boot.extraModprobeConfig = ''options bluetooth disable_ertm=1 '';
 
   environment.variables.EDITOR = "neovim";
