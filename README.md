@@ -23,14 +23,24 @@ This repository contains my personal NixOS configuration files. It manages the s
 > [!WARNING]
 > You shouldn't deploy this. The hardware configuration is tied to my machines and my setup is probably not what you want. However, it may be useful as a reference.
 
-```bash
-# Deploy to laptop
-sudo nixos-rebuild switch --flake .#laptop
+### Using Makefile
 
-# Deploy to desktop
+```bash
+make desktop  # Rebuild desktop
+make laptop   # Rebuild laptop
+make check    # Run flake check
+make update   # Update flake inputs
+make clean    # Garbage collect (>30 days)
+```
+
+### Manual
+
+```bash
+# NixOS
+sudo nixos-rebuild switch --flake .#laptop
 sudo nixos-rebuild switch --flake .#desktop
 
-# Deploy to darwin
+# Darwin
 sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dev/nix-config/flake.nix
 ```
 
