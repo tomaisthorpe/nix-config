@@ -79,7 +79,9 @@
     '';
   };
 
-  home.packages = with pkgs; [
-    fzf
-  ];
+  programs.fzf = {
+    enable = true;
+    enableFishIntegration = true;
+    enableZshIntegration = true;
+  };
 }
