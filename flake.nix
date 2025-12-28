@@ -75,6 +75,7 @@
                 isLinux = true;
               };
               home-manager.users.tom = import ./home;
+              home-manager.backupFileExtension = "hm-backup";
             }
           ];
         };
