@@ -128,7 +128,7 @@ in
   boot.supportedFilesystems = [ "ntfs" ];
   boot.extraModprobeConfig = ''options bluetooth disable_ertm=1 '';
 
-  environment.variables.EDITOR = "vim";
+  environment.variables.EDITOR = "neovim";
   environment.variables.TERMINAL = "kitty";
 
   services.gvfs = {
