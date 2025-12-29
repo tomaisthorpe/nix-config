@@ -12,6 +12,7 @@
       "podman"
       "protobuf"
       "libiconv"
+      "wabt"
     ];
 
     taps = [

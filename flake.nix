@@ -141,6 +141,7 @@
             home-manager.users.tom = import ./home;
           }
           
+          { nix.settings.trusted-users = ["root" "tom"]; }
           # Allow unfree packages
           { nixpkgs.config.allowUnfree = true; }
         ];
