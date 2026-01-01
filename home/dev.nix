@@ -47,6 +47,7 @@
     ripgrep
 
     code-cursor
+    opencode
 
     yaak
 
