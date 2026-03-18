@@ -32,6 +32,22 @@
       export LIBRARY_PATH="/opt/homebrew/opt/libiconv/lib:$LIBRARY_PATH"
       export PKG_CONFIG_PATH="/opt/homebrew/opt/libiconv/lib/pkgconfig:$PKG_CONFIG_PATH"
       export LDFLAGS="-L/opt/homebrew/opt/libiconv/lib"
-    '';
+      export PATH="$HOME/.local/bin:$PATH"
+
+gcb() {
+  local repo=$1
+  local name=''${2:-$(basename "$repo" .git)}
+  git clone --bare "$repo" ~/dev/"$name"
+}
+
+gwa() {
+  git worktree add "$1" "''${2:-origin/$1}"
+}
+
+gwcd() {
+  local root=$(git worktree list | head -1 | awk '{print $1}')
+  cd "$root/$1"
+}
+      '';
   };
 }

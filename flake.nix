@@ -104,7 +104,7 @@
         };
       };
 
-      darwinConfigurations."MacBook Pro - Tom Aisthorpe" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."MacBook-Pro-Tom-Aisthorpe" = nix-darwin.lib.darwinSystem {
         specialArgs = inputs;
         system = "aarch64-darwin";
         modules = [
