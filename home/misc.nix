@@ -72,6 +72,8 @@
         # })
 
         cudaPackages.cudatoolkit
+
+        rpi-imager
       ]
     );
 
