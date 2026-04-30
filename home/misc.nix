@@ -53,6 +53,7 @@
 
         # games
         openttd-jgrpp
+        ckan
 
         appimage-run
         geeqie
