@@ -163,6 +163,8 @@ in
 
   programs.npm.enable = true;
 
+  programs.nix-ld.enable = true;
+
   xdg.portal.enable = true;
   xdg.portal.config.common.default = "*";
 
