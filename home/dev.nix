@@ -13,11 +13,8 @@
     # Javascript
     nodejs
     yarn
-    # typescript
-    # typescript-language-server
 
     tree-sitter
-    # prettier
     nixfmt
 
     kubectl
@@ -45,9 +42,6 @@
 
     pipenv
     ripgrep
-
-    code-cursor
-    opencode
 
     yaak
 
