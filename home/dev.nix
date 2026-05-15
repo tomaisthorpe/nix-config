@@ -11,13 +11,13 @@
     llvmPackages.clang-unwrapped
 
     # Javascript
-    nodePackages.nodejs
-    nodePackages.yarn
-    # nodePackages.typescript
-    # nodePackages.typescript-language-server
+    nodejs
+    yarn
+    # typescript
+    # typescript-language-server
 
     tree-sitter
-    # nodePackages.prettier
+    # prettier
     nixfmt
 
     kubectl
