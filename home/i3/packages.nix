@@ -14,7 +14,7 @@
     acpi # battery info
     arandr # xrandr gui
     xbindkeys # bind keys to commmands
-    xorg.xbacklight # backlight control
+    xbacklight # backlight control
     scrot # screen capture tool used by i3 block lock
     alsa-utils # amixer/alsamixer/etc
     playerctl # media player control

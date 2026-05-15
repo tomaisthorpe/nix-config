@@ -15,6 +15,7 @@
 
     firefox = {
       enable = true;
+      configPath = ".mozilla/firefox";
       profiles.tom = { };
     };
   };
