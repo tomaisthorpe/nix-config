@@ -7,6 +7,13 @@
     devenv
   ];
 
+  programs.starship = {
+    enable = true;
+    settings = {
+      directory.truncation_length = 2;
+    };
+  };
+
   programs.zsh = {
     enable = true;
     history.size = 10000;
@@ -34,20 +41,10 @@
       export LDFLAGS="-L/opt/homebrew/opt/libiconv/lib"
       export PATH="$HOME/.local/bin:$PATH"
 
-gcb() {
-  local repo=$1
-  local name=''${2:-$(basename "$repo" .git)}
-  git clone --bare "$repo" ~/dev/"$name"
-}
 
-gwa() {
-  git worktree add "$1" "''${2:-origin/$1}"
-}
-
-gwcd() {
-  local root=$(git worktree list | head -1 | awk '{print $1}')
-  cd "$root/$1"
-}
-      '';
+      export PYENV_ROOT="$HOME/.pyenv"
+      [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init - zsh)"
+    '';
   };
 }
