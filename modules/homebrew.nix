@@ -6,20 +6,40 @@
   homebrew = {
     enable = true;
     brews = [
+      "buf"
+      "ctlptl"
+      "deno"
+      "dive"
+      "flyctl"
+      "gh"
+      "git-lfs"
+      "go"
+      "graphviz"
+      "helm"
+      "k6"
+      "k9s"
       "lazygit"
+      "libiconv"
+      "nvm"
       "pinentry-mac"
-      "qemu"
+      "pipx"
       "podman"
       "protobuf"
-      "libiconv"
-      "wabt"
+      "pyenv"
+      "qemu"
+      "taskwarrior-tui"
+      "tfenv"
+      "tilt"
+      "yq"
+      "zig"
     ];
 
     casks = [
-      "spotify"
-      "ghostty"
-      "slack"
       "aerospace"
+      "ghostty"
+      "orbstack"
+      "slack"
+      "spotify"
     ];
   };
 
