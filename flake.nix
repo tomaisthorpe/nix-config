@@ -26,6 +26,11 @@
       flake = false;
     };
 
+    nikitabobko-tap = {
+      url = "github:nikitabobko/homebrew-tap";
+      flake = false;
+    };
+
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.3";
 
@@ -49,6 +54,7 @@
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
+      nikitabobko-tap,
       ...
     }@inputs:
     let
@@ -117,6 +123,7 @@
                taps = {
                  "homebrew/homebrew-core" = homebrew-core;
                  "homebrew/homebrew-cask" = homebrew-cask;
+                 "nikitabobko/homebrew-tap" = nikitabobko-tap;
                };
 
                mutableTaps = false;

@@ -15,10 +15,6 @@
       "wabt"
     ];
 
-    taps = [
-      "nikitabobko/tap"
-    ];
-
     casks = [
       "spotify"
       "ghostty"
