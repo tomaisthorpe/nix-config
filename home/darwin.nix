@@ -6,6 +6,7 @@
     ripgrep
     devenv
     vit
+    postgresql
   ];
 
   programs.starship = {
