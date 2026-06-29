@@ -5,6 +5,7 @@
     rustup
     ripgrep
     devenv
+    vit
   ];
 
   programs.starship = {
