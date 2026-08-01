@@ -24,8 +24,10 @@
 
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-18c3967d-eed4-4c4d-b08e-1f47ddfc6421".device =
-    "/dev/disk/by-uuid/18c3967d-eed4-4c4d-b08e-1f47ddfc6421";
+  boot.initrd.luks.devices."luks-18c3967d-eed4-4c4d-b08e-1f47ddfc6421" = {
+    device = "/dev/disk/by-uuid/18c3967d-eed4-4c4d-b08e-1f47ddfc6421";
+    bypassWorkqueues = true;
+  };
   networking.hostName = "tom-desktop"; # Define your hostname.
 
   # Configure vertical monitor
