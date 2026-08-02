@@ -54,8 +54,6 @@ in
     go-task
     sops
 
-    elixir
-
     pipenv
     ripgrep
 
