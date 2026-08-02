@@ -2,6 +2,16 @@
   pkgs,
   ...
 }:
+let
+  yaakWithDmaBufWorkaround = pkgs.yaak.overrideAttrs (_oldAttrs: {
+    postFixup = ''
+      wrapProgram $out/bin/yaak-app \
+        --inherit-argv0 \
+        --set-default __NV_DISABLE_EXPLICIT_SYNC 1 \
+        --set-default WEBKIT_DISABLE_DMABUF_RENDERER 1
+    '';
+  });
+in
 {
   home.packages = with pkgs; [
     cmake
@@ -43,7 +53,7 @@
     pipenv
     ripgrep
 
-    yaak
+    yaakWithDmaBufWorkaround
 
     devenv
     flyctl
