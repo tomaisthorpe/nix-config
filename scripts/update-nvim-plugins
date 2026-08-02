@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+nvim_config="$repo_root/home/editors/neovim/config"
+lockfile="$nvim_config/lazy-lock.json"
+update_dir=$(mktemp -d)
+
+cleanup() {
+  rm -rf -- "$update_dir"
+}
+trap cleanup EXIT
+
+ln -s -- "$nvim_config" "$update_dir/nvim"
+
+echo "Updating Neovim plugins and $lockfile"
+XDG_CONFIG_HOME="$update_dir" nvim --headless "+Lazy! update" +qa
+
+echo
+git -C "$repo_root" diff --stat -- "$lockfile"
+echo "Review the update with:"
+echo "  git -C $repo_root diff -- $lockfile"

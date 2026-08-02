@@ -30,6 +30,7 @@ make desktop  # Rebuild desktop
 make laptop   # Rebuild laptop
 make check    # Run flake check
 make update   # Update flake inputs
+make update-nvim-plugins  # Update Neovim plugins and lockfile
 make clean    # Garbage collect (>30 days)
 ```
 
