@@ -1,14 +1,20 @@
 {
   pkgs,
+  yaak-nixpkgs,
   ...
 }:
 let
-  yaakWithDmaBufWorkaround = pkgs.yaak.overrideAttrs (_oldAttrs: {
-    postFixup = ''
-      wrapProgram $out/bin/yaak-app \
-        --inherit-argv0 \
-        --set-default __NV_DISABLE_EXPLICIT_SYNC 1 \
+  yaakPkgs = import yaak-nixpkgs {
+    system = pkgs.system;
+    config.allowUnfree = true;
+  };
+
+  yaakWithDmaBufWorkaround = yaakPkgs.yaak.overrideAttrs (oldAttrs: {
+    preFixup = (oldAttrs.preFixup or "") + ''
+      gappsWrapperArgs+=(
+        --set-default __NV_DISABLE_EXPLICIT_SYNC 1
         --set-default WEBKIT_DISABLE_DMABUF_RENDERER 1
+      )
     '';
   });
 in

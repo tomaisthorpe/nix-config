@@ -5,6 +5,9 @@
     # Official NixOS package source, using nixos-unstable branch here
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    # Yaak 2026.5.0 from https://github.com/NixOS/nixpkgs/pull/548416
+    yaak-nixpkgs.url = "github:tomaisthorpe/nixpkgs/ddd5c5cafb088c48501336a6455ea29567e1fd81";
+
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 

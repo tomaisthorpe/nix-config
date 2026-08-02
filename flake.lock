@@ -267,7 +267,8 @@
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs",
-        "polybar-themes": "polybar-themes"
+        "polybar-themes": "polybar-themes",
+        "yaak-nixpkgs": "yaak-nixpkgs"
       }
     },
     "rust-overlay": {
@@ -288,6 +289,22 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "yaak-nixpkgs": {
+      "locked": {
+        "lastModified": 1785678442,
+        "narHash": "sha256-yQambBU4vuLNbyC7iOCPOA+uHrqnrTvboqiXCntWJVo=",
+        "owner": "tomaisthorpe",
+        "repo": "nixpkgs",
+        "rev": "ddd5c5cafb088c48501336a6455ea29567e1fd81",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tomaisthorpe",
+        "repo": "nixpkgs",
+        "rev": "ddd5c5cafb088c48501336a6455ea29567e1fd81",
         "type": "github"
       }
     }
