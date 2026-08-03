@@ -35,7 +35,6 @@
     ];
 
     casks = [
-      "aerospace"
       "ghostty"
       "slack"
       "spotify"
