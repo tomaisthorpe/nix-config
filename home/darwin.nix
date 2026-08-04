@@ -167,13 +167,15 @@
         wait
       }
 
+      # $3 (base) is optional -- defaults to the repo's default branch, and
+      # only matters when $branch doesn't already exist locally or on origin
       _wt_create() {
-        local src="$1" branch="$2"
-        local repo dst base
+        local src="$1" branch="$2" base="$3"
+        local repo dst base_ref
         repo=$(basename "$src")
         dst="$WORK_DIR/worktrees/$repo/''${branch//\//-}"
         mkdir -p "$(dirname "$dst")"
-        base=$(_wt_default_branch "$src")
+        [[ -n "$base" ]] || base=$(_wt_default_branch "$src")
         if ! git -C "$src" fetch --quiet origin; then
           echo "Warning: fetch failed, branch/base refs may be stale" >&2
         fi
@@ -188,8 +190,19 @@
           git -C "$src" worktree add -b "$branch" --track "$dst" "origin/$branch" || { echo "Failed to create worktree"; return 1; }
           echo "Worktree ready: $dst (tracking origin/$branch)"
         else
-          git -C "$src" worktree add --no-track -b "$branch" "$dst" "origin/$base" || { echo "Failed to create worktree"; return 1; }
-          echo "Worktree ready: $dst (branched from origin/$base)"
+          # prefer origin's copy of the base (freshest), but fall back to a
+          # local-only base branch -- e.g. basing one stacked worktree on
+          # another that hasn't been pushed yet
+          if git -C "$src" show-ref --verify --quiet "refs/remotes/origin/$base"; then
+            base_ref="origin/$base"
+          elif git -C "$src" show-ref --verify --quiet "refs/heads/$base"; then
+            base_ref="$base"
+          else
+            echo "Failed to create worktree: base '$base' not found locally or as origin/$base"
+            return 1
+          fi
+          git -C "$src" worktree add --no-track -b "$branch" "$dst" "$base_ref" || { echo "Failed to create worktree"; return 1; }
+          echo "Worktree ready: $dst (branched from $base_ref)"
         fi
         _wt_carry_files "$src" "$dst"
       }
@@ -341,16 +354,19 @@
 
       _wt_menu_new() {
         [[ -d "$REPOS_DIR" ]] || { echo "\$REPOS_DIR not found ($REPOS_DIR)"; return 1; }
-        local src repo branch result query selection pr_number resolved
+        local src repo branch base branch_candidates result query selection pr_number resolved
         src=$(find "$REPOS_DIR" -mindepth 1 -maxdepth 1 -type d | fzf --prompt="repo> ") || return
         [[ -n "$src" ]] || return
         repo=$(basename "$src")
         git -C "$src" fetch --quiet origin
+
+        branch_candidates=$( { git -C "$src" branch --format='%(refname:short)'
+                                git -C "$src" branch -r --format='%(refname:short)' | grep -v '/HEAD$' | sed 's#^origin/##'
+                              } | sort -u)
+
         # pick an existing local/remote branch, type a new name, or enter a PR number
         # (alt-enter forces your typed text even if it fuzzy-matches something else)
-        result=$( { git -C "$src" branch --format='%(refname:short)'
-                    git -C "$src" branch -r --format='%(refname:short)' | grep -v '/HEAD$' | sed 's#^origin/##'
-                  } | sort -u | fzf --prompt="branch (existing, new, or PR #; alt-enter=exact)> " \
+        result=$(printf '%s\n' "$branch_candidates" | fzf --prompt="branch (existing, new, or PR #; alt-enter=exact)> " \
                         --print-query --bind 'alt-enter:print-query')
         query=$(printf '%s\n' "$result" | sed -n 1p)
         selection=$(printf '%s\n' "$result" | sed -n 2p)
@@ -366,9 +382,20 @@
           git -C "$src" fetch --quiet origin "+refs/pull/$pr_number/head:$resolved"
           echo "PR #$pr_number -> $resolved"
           branch="$resolved"
+        elif git -C "$src" show-ref --verify --quiet "refs/heads/$branch" \
+          || git -C "$src" show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+          : # existing branch -- no base to ask about, it's already pointed somewhere
+        else
+          # only a genuinely new branch needs a base -- e.g. stack it on
+          # another feature branch instead of the repo default
+          result=$(printf '%s\n' "$branch_candidates" | fzf --prompt="base branch (blank = repo default)> " \
+                        --query="$(_wt_default_branch "$src")" --print-query --bind 'alt-enter:print-query')
+          query=$(printf '%s\n' "$result" | sed -n 1p)
+          selection=$(printf '%s\n' "$result" | sed -n 2p)
+          base="''${selection:-$query}"
         fi
 
-        _wt_create "$src" "$branch" || return
+        _wt_create "$src" "$branch" "$base" || return
         _wt_open "$repo" "''${branch//\//-}" "$WORK_DIR/worktrees/$repo/''${branch//\//-}" vim
       }
 
@@ -433,6 +460,7 @@ echo
         echo "wtprune             list and remove every worktree whose PR is merged/closed"
         echo
         echo "ctrl-n's branch prompt also accepts a bare PR number to check that PR out"
+        echo "ctrl-n asks for a base branch too when creating a genuinely new branch (default: repo default, can stack on another branch)"
         echo "picker preview pane shows recent commits + PR title/body; PR column shows a CI check summary (✓/…/✗)"
         echo "layout: \$WORK_DIR/worktrees/<repo>/<branch>"
         echo "new worktrees auto-symlink: ''${WT_CARRY_FILES[*]}"
