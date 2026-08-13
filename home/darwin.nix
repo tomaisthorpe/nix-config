@@ -207,10 +207,10 @@
         _wt_carry_files "$src" "$dst"
       }
 
-      # open (or attach to) a tmux session for one (repo, branch) worktree --
-      # one window per program, so vim and the agent never share a window
-      # and switching between them never kills either's state
-      _wt_open() {
+      # create (or respawn if dead) the tmux window for one (repo, branch,
+      # program) -- doesn't attach/focus it, so callers can spin up several
+      # programs for the same worktree before landing on just one of them
+      _wt_ensure_window() {
         local repo="$1" branch="$2" wt_path="$3" prog="$4"
         local session window dead
         session=$(_wt_session_name "$repo" "$branch")
@@ -230,11 +230,19 @@
           dead=$(tmux list-panes -t "''${session}:''${window}" -F '#{pane_dead}' 2>/dev/null | head -1)
           [[ "$dead" == "1" ]] && tmux respawn-window -k -t "''${session}:''${window}" -c "$wt_path" "$prog"
         fi
+      }
+
+      # ensure the window exists, then attach/focus it
+      _wt_open() {
+        local repo="$1" branch="$2" wt_path="$3" prog="$4"
+        local session
+        _wt_ensure_window "$repo" "$branch" "$wt_path" "$prog"
+        session=$(_wt_session_name "$repo" "$branch")
 
         if [[ -n "$TMUX" ]]; then
-          tmux switch-client -t "''${session}:''${window}"
+          tmux switch-client -t "''${session}:''${prog}"
         else
-          tmux attach -t "''${session}:''${window}"
+          tmux attach -t "''${session}:''${prog}"
         fi
       }
 
@@ -396,7 +404,9 @@
         fi
 
         _wt_create "$src" "$branch" "$base" || return
-        _wt_open "$repo" "''${branch//\//-}" "$WORK_DIR/worktrees/$repo/''${branch//\//-}" vim
+        local new_wt_path="$WORK_DIR/worktrees/$repo/''${branch//\//-}" new_branch="''${branch//\//-}"
+        _wt_ensure_window "$repo" "$new_branch" "$new_wt_path" claude
+        _wt_open "$repo" "$new_branch" "$new_wt_path" vim
       }
 
       _wt_menu_rm() {
