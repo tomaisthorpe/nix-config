@@ -70,6 +70,31 @@
         fi
       }
 
+      # reverse of _wt_resolve_path -- figures out (repo, branch, wt_path)
+      # from $PWD, so commands like wtagent work from a plain shell prompt
+      # without going through the fzf picker
+      _wt_here() {
+        local dir="$PWD" rel repo branch
+        case "$dir" in
+          "$WORK_DIR/worktrees/"*)
+            rel="''${dir#$WORK_DIR/worktrees/}"
+            repo="''${rel%%/*}"
+            rel="''${rel#*/}"
+            branch="''${rel%%/*}"
+            ;;
+          "$REPOS_DIR/"*)
+            rel="''${dir#$REPOS_DIR/}"
+            repo="''${rel%%/*}"
+            branch="$WT_PRIMARY_LABEL"
+            ;;
+          *)
+            return 1
+            ;;
+        esac
+        [[ -n "$repo" && -n "$branch" ]] || return 1
+        printf '%s\t%s\t%s\n' "$repo" "$branch" "$(_wt_resolve_path "$repo" "$branch")"
+      }
+
       # one tmux session per (repo, branch) worktree
       _wt_session_name() { echo "wt-$1-$2"; }
 
@@ -81,6 +106,30 @@
           mkdir -p "$(dirname "$dst/$f")"
           ln -s "$src/$f" "$dst/$f"
         done
+      }
+
+      # sbx kits (mixin dirs living outside this repo, see ~/.config/sbx/kits)
+      # applied to freshly created sandboxes; a missing kit dir is skipped so
+      # this degrades gracefully on machines that don't have it
+      WT_SBX_KITS=("$HOME/.config/sbx/kits/aikido-ca")
+
+      # --kit only takes effect when a sandbox is created -- sbx hard-errors
+      # if it's passed against a sandbox that already exists, which is the
+      # case whenever a wt window is being respawned/reattached rather than
+      # created for the first time
+      _wt_sbx_exists() {
+        sbx ls --json 2>/dev/null | jq -e --arg p "$1" \
+          '.sandboxes[]? | select(.workspaces[]? == $p)' >/dev/null 2>&1
+      }
+
+      _wt_claude_cmd() {
+        local wt_path="$1" k cmd="sbx run claude"
+        if ! _wt_sbx_exists "$wt_path"; then
+          for k in "''${WT_SBX_KITS[@]}"; do
+            [[ -d "$k" ]] && cmd+=" --kit $k"
+          done
+        fi
+        echo "$cmd"
       }
 
       _wt_default_branch() {
@@ -250,6 +299,16 @@
         _wt_menu
       }
 
+      # start (or reattach to) the current worktree's sbx-backed claude
+      # session without leaving your shell for the fzf picker -- same
+      # window ctrl-a opens from wt, just inferred from $PWD instead
+      wtagent() {
+        local repo branch wt_path line
+        line=$(_wt_here) || { echo "Not inside a worktree under \$WORK_DIR/worktrees or a repo checkout under \$REPOS_DIR."; return 1; }
+        IFS=$'\t' read -r repo branch wt_path <<< "$line"
+        _wt_open "$repo" "$branch" "$wt_path" claude "$(_wt_claude_cmd "$wt_path")"
+      }
+
       wtprune() {
         local wt_base="$WORK_DIR/worktrees" tmpdir repo_dir repo branch_dir branch raw pr_state
         local -a stale_items stale_display
@@ -275,23 +334,46 @@
         done
         rm -rf "$tmpdir"
 
-        [[ ''${#stale_items[@]} -eq 0 ]] && { echo "Nothing to prune."; return 0; }
-        echo "Merged/closed worktrees:"
-        printf '  %s\n' "''${stale_display[@]}"
-        read -q "REPLY?Remove all ''${#stale_items[@]} of these? [y/N] "
-        echo
-        [[ "$REPLY" == [Yy] ]] || return
+        if [[ ''${#stale_items[@]} -eq 0 ]]; then
+          echo "No merged/closed worktrees to prune."
+        else
+          echo "Merged/closed worktrees:"
+          printf '  %s\n' "''${stale_display[@]}"
+          read -q "REPLY?Remove all ''${#stale_items[@]} of these? [y/N] "
+          echo
+          if [[ "$REPLY" == [Yy] ]]; then
+            local item wt_path session
+            for item in "''${stale_items[@]}"; do
+              repo="''${item%%/*}"
+              branch="''${item#*/}"
+              wt_path="$WORK_DIR/worktrees/$repo/$branch"
+              session=$(_wt_session_name "$repo" "$branch")
+              tmux kill-session -t "$session" 2>/dev/null
+              git -C "$wt_path" worktree remove "$wt_path" --force && echo "Removed $wt_path" || echo "Failed to remove $wt_path"
+              rmdir "$WORK_DIR/worktrees/$repo" 2>/dev/null
+            done
+          fi
+        fi
 
-        local item wt_path session
-        for item in "''${stale_items[@]}"; do
-          repo="''${item%%/*}"
-          branch="''${item#*/}"
-          wt_path="$WORK_DIR/worktrees/$repo/$branch"
-          session=$(_wt_session_name "$repo" "$branch")
-          tmux kill-session -t "$session" 2>/dev/null
-          git -C "$wt_path" worktree remove "$wt_path" --force && echo "Removed $wt_path" || echo "Failed to remove $wt_path"
-          rmdir "$WORK_DIR/worktrees/$repo" 2>/dev/null
-        done
+        # sbx sandboxes whose worktree is gone (removed above, or deleted
+        # some other way) -- sbx itself flags these via workspace_missing,
+        # so no need to re-derive it from paths
+        command -v sbx >/dev/null 2>&1 || return 0
+        local -a dangling_sbx dangling_display
+        local name wpath
+        while IFS=$'\t' read -r name wpath; do
+          [[ -n "$name" ]] || continue
+          dangling_sbx+=("$name")
+          dangling_display+=("$name ($wpath)")
+        done < <(sbx ls --json 2>/dev/null | jq -r '.sandboxes[]? | select(.workspace_missing) | [.name, (.workspaces[0] // "?")] | @tsv')
+
+        [[ ''${#dangling_sbx[@]} -eq 0 ]] && return 0
+        echo "Dangling sandboxes (workspace missing):"
+        printf '  %s\n' "''${dangling_display[@]}"
+        read -q "REPLY?Remove all ''${#dangling_sbx[@]} of these sandboxes? [y/N] "
+        echo
+        [[ "$REPLY" == [Yy] ]] || return 0
+        sbx rm --force "''${dangling_sbx[@]}"
       }
 
       wcd() {
@@ -405,7 +487,7 @@
 
         _wt_create "$src" "$branch" "$base" || return
         local new_wt_path="$WORK_DIR/worktrees/$repo/''${branch//\//-}" new_branch="''${branch//\//-}"
-        _wt_ensure_window "$repo" "$new_branch" "$new_wt_path" claude "sbx run claude"
+        _wt_ensure_window "$repo" "$new_branch" "$new_wt_path" claude "$(_wt_claude_cmd "$new_wt_path")"
         _wt_open "$repo" "$new_branch" "$new_wt_path" vim
       }
 
@@ -455,7 +537,7 @@ echo
         fi
 
         case "$key" in
-          ctrl-a) _wt_open "$repo" "$branch" "$wt_path" claude "sbx run claude" ;;
+          ctrl-a) _wt_open "$repo" "$branch" "$wt_path" claude "$(_wt_claude_cmd "$wt_path")" ;;
           ctrl-g) _wt_open "$repo" "$branch" "$wt_path" lazygit ;;
           ctrl-o) _wt_pr_open "$wt_path" "$branch"; _wt_menu ;;
           ctrl-y) _wt_pr_copy "$wt_path" "$branch"; _wt_menu ;;
@@ -467,7 +549,8 @@ echo
       wthelp() {
         echo "wt                  interactive picker: enter=vim, ctrl-a=agent, ctrl-g=lazygit, ctrl-o=open PR, ctrl-y=copy PR url, ctrl-n=new, ctrl-d=remove"
         echo "wcd [query]         fzf-pick a worktree to cd into"
-        echo "wtprune             list and remove every worktree whose PR is merged/closed"
+        echo "wtagent             start/reattach the current worktree's sbx agent session (same as ctrl-a, inferred from \$PWD)"
+        echo "wtprune             list and remove every worktree whose PR is merged/closed, then check for dangling sbx sandboxes (workspace missing)"
         echo
         echo "ctrl-n's branch prompt also accepts a bare PR number to check that PR out"
         echo "ctrl-n asks for a base branch too when creating a genuinely new branch (default: repo default, can stack on another branch)"
