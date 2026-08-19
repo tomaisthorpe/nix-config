@@ -16,22 +16,18 @@
       "go"
       "graphviz"
       "helm"
-      "k6"
       "k9s"
       "lazygit"
       "libiconv"
       "nvm"
       "pinentry-mac"
       "pipx"
-      "podman"
       "protobuf"
       "pyenv"
       "qemu"
-      "taskwarrior-tui"
       "tfenv"
       "tilt"
       "yq"
-      "zig"
     ];
 
     casks = [
