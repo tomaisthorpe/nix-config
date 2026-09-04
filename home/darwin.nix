@@ -123,18 +123,11 @@
       }
 
       _wt_claude_cmd() {
-        local wt_path="$1" repo="$2" k cmd="sbx run claude" repo_path="$REPOS_DIR/$repo"
+        local wt_path="$1" k cmd="sbx run claude"
         if ! _wt_sbx_exists "$wt_path"; then
           for k in "''${WT_SBX_KITS[@]}"; do
             [[ -d "$k" ]] && cmd+=" --kit $k"
           done
-          # a linked worktree's .git is just a pointer file -- the real git
-          # dir lives under the main checkout, outside $wt_path -- so mount
-          # that read-only too, letting git/gh see history/diffs for reviews
-          # (this only takes effect at creation time, same as --kit above)
-          if [[ "$repo_path" != "$wt_path" && -d "$repo_path" ]]; then
-            cmd+=" \"$wt_path\" \"$repo_path:ro\""
-          fi
         fi
         echo "$cmd"
       }
@@ -313,7 +306,7 @@
         local repo branch wt_path line
         line=$(_wt_here) || { echo "Not inside a worktree under \$WORK_DIR/worktrees or a repo checkout under \$REPOS_DIR."; return 1; }
         IFS=$'\t' read -r repo branch wt_path <<< "$line"
-        _wt_open "$repo" "$branch" "$wt_path" claude "$(_wt_claude_cmd "$wt_path" "$repo")"
+        _wt_open "$repo" "$branch" "$wt_path" claude "$(_wt_claude_cmd "$wt_path")"
       }
 
       wtprune() {
@@ -494,7 +487,7 @@
 
         _wt_create "$src" "$branch" "$base" || return
         local new_wt_path="$WORK_DIR/worktrees/$repo/''${branch//\//-}" new_branch="''${branch//\//-}"
-        _wt_ensure_window "$repo" "$new_branch" "$new_wt_path" claude "$(_wt_claude_cmd "$new_wt_path" "$repo")"
+        _wt_ensure_window "$repo" "$new_branch" "$new_wt_path" claude "$(_wt_claude_cmd "$new_wt_path")"
         _wt_open "$repo" "$new_branch" "$new_wt_path" vim
       }
 
@@ -544,7 +537,7 @@ echo
         fi
 
         case "$key" in
-          ctrl-a) _wt_open "$repo" "$branch" "$wt_path" claude "$(_wt_claude_cmd "$wt_path" "$repo")" ;;
+          ctrl-a) _wt_open "$repo" "$branch" "$wt_path" claude "$(_wt_claude_cmd "$wt_path")" ;;
           ctrl-g) _wt_open "$repo" "$branch" "$wt_path" lazygit ;;
           ctrl-o) _wt_pr_open "$wt_path" "$branch"; _wt_menu ;;
           ctrl-y) _wt_pr_copy "$wt_path" "$branch"; _wt_menu ;;
