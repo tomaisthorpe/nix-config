@@ -35,6 +35,10 @@
       "slack"
       "spotify"
     ];
+
+    taps = [
+      "docker/tap"
+    ];
   };
 
   fonts.packages = with pkgs; [
