@@ -38,6 +38,7 @@
 
     taps = [
       "docker/tap"
+      "hashicorp/tap"
     ];
   };
 
