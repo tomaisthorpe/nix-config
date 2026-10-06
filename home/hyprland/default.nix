@@ -30,12 +30,18 @@
         kb_layout = "gb",
         kb_options = "caps:escape",
       },
+      misc = {
+        background_color = 0xff12141a,
+        force_default_wallpaper = 0,
+        disable_hyprland_logo = true,
+        disable_splash_rendering = true,
+      },
     })
 
     hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
     ${lib.optionalString isDesktop ''
       hl.monitor({ output = "DP-2", mode = "preferred", position = "0x0", scale = 1 })
-      hl.monitor({ output = "DP-0", mode = "preferred", position = "auto-right", scale = 1, transform = 1 })
+      hl.monitor({ output = "DP-1", mode = "preferred", position = "auto-right", scale = 1, transform = 1 })
     ''}
 
     hl.on("hyprland.start", function()
