@@ -264,6 +264,14 @@ in
   # Rofi theme matching the waybar look; kept separate so the i3 rofi theme is untouched
   xdg.configFile."rofi/themes/hyprland.rasi".text = ''
     /* Catppuccin Mocha */
+    configuration {
+      /* drop the "window"/"run" prefix and the workspace column in the combi list */
+      combi-display-format: "{text}";
+      window-format: "{c}  {t}";
+      display-combi: "󰍉";
+      display-drun: "󰍉";
+    }
+
     * {
       base: #1e1e2e;
       surface: #313244;
@@ -273,24 +281,24 @@ in
 
       background-color: transparent;
       text-color: @text;
-      font: "Iosevka Nerd Font 14";
+      font: "Iosevka Nerd Font 11";
     }
 
     window {
-      width: 520px;
+      width: 760px;
       background-color: @base;
       border: 2px;
       border-color: @sep;
     }
 
     mainbox {
-      padding: 12px;
-      spacing: 8px;
+      padding: 14px;
+      spacing: 10px;
     }
 
     inputbar {
-      padding: 8px 10px;
-      spacing: 8px;
+      padding: 10px 12px;
+      spacing: 10px;
       background-color: @surface;
       children: [ prompt, entry ];
     }
@@ -305,21 +313,23 @@ in
     }
 
     listview {
-      lines: 8;
+      lines: 10;
       scrollbar: false;
       spacing: 2px;
     }
 
     element {
-      padding: 6px 10px;
-      spacing: 8px;
-      border: 0 0 2px 0;
-      border-color: transparent;
+      padding: 8px 12px;
+      spacing: 10px;
     }
 
     element selected {
       background-color: @surface;
-      border-color: @pink;
+      text-color: @pink;
+    }
+
+    element-text {
+      text-color: inherit;
     }
 
     element-icon {
