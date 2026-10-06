@@ -26,6 +26,34 @@
       coloured = color: glyph: "<span foreground='${color}'>${glyph} </span>";
       # waybar needs one {iconN} per thread; 24 threads on the desktop, 4 on the laptop
       cpuThreads = if isDesktop then 24 else 4;
+      # waybar's hyprland/workspaces sends legacy dispatch syntax, which the Lua config rejects,
+      # so workspaces are custom modules that follow Hyprland events and click via Lua
+      wsWatch = pkgs.writeShellScript "waybar-workspace" ''
+        export PATH=${lib.makeBinPath [ pkgs.socat pkgs.jq ]}:$PATH
+        n=$1
+        show() {
+          active=$(hyprctl -j monitors | jq --argjson n "$n" '[.[].activeWorkspace.id] | index($n) != null')
+          windows=$(hyprctl -j workspaces | jq --argjson n "$n" '[.[] | select(.id == $n) | .windows] | first // 0')
+          if [ "$active" = true ]; then class=active
+          elif [ "$windows" -gt 0 ]; then class=occupied
+          else class=empty; fi
+          printf '{"text":"%s","class":"%s"}\n' "$n" "$class"
+        }
+        show
+        socat -U - "UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" |
+          while read -r _; do show; done
+      '';
+      workspaceIds = lib.range 1 5;
+      workspaceModule = n: {
+        name = "custom/ws#${toString n}";
+        value = {
+          exec = "${wsWatch} ${toString n}";
+          return-type = "json";
+          format = "{}";
+          tooltip = false;
+          on-click = "hyprctl dispatch 'hl.dsp.focus({ workspace = ${toString n} })'";
+        };
+      };
       sep = name: {
         "custom/sep#${name}" = {
           format = "|";
@@ -38,7 +66,7 @@
         layer = "top";
         height = 34;
         spacing = 12;
-        modules-left = [ "hyprland/workspaces" ];
+        modules-left = map (n: "custom/ws#${toString n}") workspaceIds;
         modules-right = [
           "cpu"
           "memory"
@@ -59,11 +87,6 @@
           "tray"
           "custom/power"
         ];
-        "hyprland/workspaces" = {
-          format = "{id}";
-          on-click = "activate";
-          persistent-workspaces."*" = 5;
-        };
         cpu = {
           format = "${coloured "#f9e2af" (icon "f2db")} ${lib.concatMapStrings (n: "{icon${toString n}}") (lib.range 0 (cpuThreads - 1))}";
           format-icons = [ "▁" "▂" "▃" "▄" "▅" "▆" "▇" "█" ];
@@ -109,6 +132,7 @@
           on-click = "printf 'Lock\\nLogout\\nReboot\\nShutdown' | rofi -theme hyprland -dmenu -p power | xargs -r -I{} sh -c 'case {} in Lock) loginctl lock-session;; Logout) uwsm stop;; Reboot) systemctl reboot;; Shutdown) systemctl poweroff;; esac'";
         };
       }
+      // lib.listToAttrs (map workspaceModule workspaceIds)
       // sep "a"
       // sep "b"
       // sep "c"
@@ -136,22 +160,21 @@
       color: @text;
     }
 
-    #workspaces button {
+    #custom-ws {
       padding: 0 10px;
-      background: transparent;
       color: @text;
       border-bottom: 2px solid transparent;
     }
 
-    #workspaces button.active {
+    #custom-ws.empty {
+      color: @sep;
+    }
+
+    #custom-ws.active {
       border-bottom: 2px solid @pink;
     }
 
-    #workspaces button.urgent {
-      color: @red;
-    }
-
-    #workspaces button:hover {
+    #custom-ws:hover {
       background: @sep;
     }
 
