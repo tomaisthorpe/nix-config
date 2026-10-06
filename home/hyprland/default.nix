@@ -285,7 +285,8 @@
     end)
 
     hl.bind("SUPER + Return", hl.dsp.exec_cmd("kitty"))
-    hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi -theme hyprland -show drun"))
+    hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi -theme hyprland -combi-modi 'window#run' -show combi -modi combi"))
+    hl.bind("SUPER + G", hl.dsp.exec_cmd("rofi -theme hyprland -show drun"))
     hl.bind("SUPER + SHIFT + Q", hl.dsp.window.close({}))
     hl.bind("SUPER + F", hl.dsp.window.fullscreen({}))
     hl.bind("SUPER + SHIFT + SPACE", hl.dsp.window.float({}))
