@@ -159,7 +159,7 @@ in
 
   services.udev.extraRules = builtins.readFile ./99-custom.rules;
 
-  nix.settings.experimental-features = "nix-command flakes";
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   programs.npm.enable = true;
 
