@@ -31,23 +31,33 @@
       wsWatch = pkgs.writeShellScript "waybar-workspace" ''
         export PATH=${lib.makeBinPath [ pkgs.socat pkgs.jq ]}:$PATH
         n=$1
+        monitor=$2
+        # With a monitor, only show workspaces that live on it (like polybar's pin-workspaces).
+        # Without one (single screen), always show 1-5 and any others that exist.
         show() {
-          active=$(hyprctl -j monitors | jq --argjson n "$n" '[.[].activeWorkspace.id] | index($n) != null')
-          windows=$(hyprctl -j workspaces | jq --argjson n "$n" '[.[] | select(.id == $n) | .windows] | first // 0')
-          if [ "$active" = true ]; then class=active
-          elif [ "$windows" -gt 0 ]; then class=occupied
-          else class=empty; fi
-          printf '{"text":"%s","class":"%s"}\n' "$n" "$class"
+          class=$(jq -n -r --argjson n "$n" --arg m "$monitor" \
+            --argjson monitors "$(hyprctl -j monitors)" --argjson workspaces "$(hyprctl -j workspaces)" '
+            ([$workspaces[] | select(.id == $n and ($m == "" or .monitor == $m))] | first) as $ws
+            | if [$monitors[] | select(($m == "" or .name == $m) and .activeWorkspace.id == $n)] | length > 0 then "active"
+              elif $ws != null and $ws.windows > 0 then "occupied"
+              elif $m == "" and $n <= 5 then "empty"
+              else "hidden" end')
+          # exit once waybar has gone, so reloads don't leave orphaned scripts behind
+          if [ "$class" = hidden ]; then
+            printf '{"text":""}\n' || exit 0
+          else
+            printf '{"text":"%s","class":"%s"}\n' "$n" "$class" || exit 0
+          fi
         }
         show
         socat -U - "UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" |
           while read -r _; do show; done
       '';
-      workspaceIds = lib.range 1 5;
-      workspaceModule = n: {
+      workspaceIds = lib.range 1 10;
+      workspaceModule = monitor: n: {
         name = "custom/ws#${toString n}";
         value = {
-          exec = "${wsWatch} ${toString n}";
+          exec = "${wsWatch} ${toString n} '${monitor}'";
           return-type = "json";
           format = "{}";
           tooltip = false;
@@ -60,8 +70,9 @@
           tooltip = false;
         };
       };
-    in
-    builtins.toJSON (
+      bar =
+        monitor:
+        (
       {
         layer = "top";
         height = 34;
@@ -132,12 +143,19 @@
           on-click = "printf 'Lock\\nLogout\\nReboot\\nShutdown' | rofi -theme hyprland -dmenu -p power | xargs -r -I{} sh -c 'case {} in Lock) loginctl lock-session;; Logout) uwsm stop;; Reboot) systemctl reboot;; Shutdown) systemctl poweroff;; esac'";
         };
       }
-      // lib.listToAttrs (map workspaceModule workspaceIds)
+      // lib.listToAttrs (map (workspaceModule monitor) workspaceIds)
       // sep "a"
       // sep "b"
       // sep "c"
       // sep "d"
-    );
+      // lib.optionalAttrs (monitor != "") { output = monitor; }
+      # the vertical monitor only gets workspaces, like polybar's secondary bar
+      // lib.optionalAttrs (monitor == "DP-1") { modules-right = [ ]; }
+        );
+      # one bar per screen on the desktop (DP-2 left, DP-1 the vertical one); a single bar elsewhere
+      monitors = if isDesktop then [ "DP-2" "DP-1" ] else [ "" ];
+    in
+    builtins.toJSON (map bar monitors);
 
   xdg.configFile."waybar/style.css".text = ''
     /* Catppuccin Mocha */
@@ -264,6 +282,9 @@
       input = {
         kb_layout = "gb",
         kb_options = "caps:escape",
+      },
+      animations = {
+        enabled = false,
       },
       misc = {
         background_color = 0xff11111b,
