@@ -10,6 +10,9 @@
     wl-clipboard
     brightnessctl
     playerctl
+    grim
+    slurp
+    satty
   ];
 
   home.pointerCursor = {
@@ -319,6 +322,10 @@
     hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
     hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
     hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+
+    -- Screenshots: select an area and annotate it in satty, or copy it straight to the clipboard
+    hl.bind("Print", hl.dsp.exec_cmd('grim -g "$(slurp)" - | satty --filename - --early-exit --copy-command wl-copy --output-filename "$HOME/Pictures/screenshot-%Y-%m-%d_%H-%M-%S.png"'))
+    hl.bind("SUPER + Print", hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy'))
 
     hl.on("hyprland.start", function()
       hl.exec_cmd("waybar")
