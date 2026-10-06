@@ -4,6 +4,32 @@
   isDesktop,
   ...
 }:
+let
+  # Pick an entry from clipboard history and put it back on the clipboard
+  clipboardPicker = pkgs.writeShellScript "clipboard-picker" ''
+    export PATH=${
+      lib.makeBinPath [
+        cliphist
+        pkgs.rofi
+        pkgs.wl-clipboard
+      ]
+    }:$PATH
+    selection=$(cliphist list | rofi -theme hyprland -dmenu -p clipboard) || exit 0
+    [ -n "$selection" ] || exit 0
+    printf '%s' "$selection" | cliphist decode | wl-copy
+  '';
+  # `cliphist wipe -older-than` isn't in a release yet (0.7.0 in nixpkgs), so build master
+  cliphist = pkgs.cliphist.overrideAttrs (old: {
+    version = "0.7.0-unstable-daa99da";
+    src = pkgs.fetchFromGitHub {
+      owner = "sentriz";
+      repo = "cliphist";
+      rev = "daa99daef3ed37dc37013b1fae381fe626025a13";
+      hash = "sha256-LHYHKtKzmWEupsypAMZgG4drpCF7DmklnWgnK3dXrUE=";
+    };
+    vendorHash = "sha256-fDl+ul1t2Ux1w5WcCo6YMJtrcC20o+eUEO3NNycSNvI=";
+  });
+in
 {
   home.packages = with pkgs; [
     waybar
@@ -14,6 +40,30 @@
     slurp
     satty
   ];
+
+  # Clipboard history; only keep the last hour, pruned every 5 minutes
+  services.cliphist = {
+    enable = true;
+    package = cliphist;
+    allowImages = true;
+  };
+
+  systemd.user.services.cliphist-wipe = {
+    Unit.Description = "Wipe clipboard history older than an hour";
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${cliphist}/bin/cliphist wipe -older-than 1h";
+    };
+  };
+
+  systemd.user.timers.cliphist-wipe = {
+    Unit.Description = "Prune old clipboard history";
+    Timer = {
+      OnCalendar = "*:0/5";
+      Persistent = true;
+    };
+    Install.WantedBy = [ "timers.target" ];
+  };
 
   home.pointerCursor = {
     enable = true;
@@ -327,7 +377,12 @@
     hl.bind("Print", hl.dsp.exec_cmd('grim -g "$(slurp)" - | satty --filename - --early-exit --copy-command wl-copy --output-filename "$HOME/Pictures/screenshot-%Y-%m-%d_%H-%M-%S.png"'))
     hl.bind("SUPER + Print", hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy'))
 
+    -- Clipboard history: rofi picker on SUPER + V
+    hl.bind("SUPER + V", hl.dsp.exec_cmd("${clipboardPicker}"))
+
     hl.on("hyprland.start", function()
+      -- graphical-session.target isn't active in this session, so start the clipboard watchers by hand
+      hl.exec_cmd("systemctl --user start cliphist cliphist-images")
       hl.exec_cmd("waybar")
       hl.exec_cmd("dunst")
     end)
