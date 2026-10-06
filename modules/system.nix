@@ -38,6 +38,12 @@ in
   # and let Home Manager take care of the X session
   services.displayManager.defaultSession = "hm-session";
 
+  # Keep the Home Manager i3 X session as the default and offer Hyprland in LightDM.
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
+
   services.xserver = {
     enable = true;
     displayManager = {

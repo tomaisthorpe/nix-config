@@ -3,6 +3,7 @@
 
   imports = [
     ./i3
+    ./hyprland
     ./browsers.nix
     ./dev.nix
     ./git.nix
