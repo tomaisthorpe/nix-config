@@ -37,7 +37,7 @@
     hl.bind("SUPER + SHIFT + SPACE", hl.dsp.window.float({}))
     hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("uwsm stop"))
 
-    for key, direction in pairs({ H = "l", J = "d", K = "u", L = "r" }) do
+    for key, direction in pairs({ H = "l", J = "d", K = "u", L = "r", left = "l", down = "d", up = "u", right = "r" }) do
       hl.bind("SUPER + " .. key, hl.dsp.focus({ direction = direction }))
       hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ direction = direction }))
     end
