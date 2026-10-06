@@ -63,7 +63,11 @@
       ]
       # Desktop-only packages
       ++ pkgs.lib.optionals isDesktop [
-        vcv-rack
+        (vcv-rack.overrideAttrs (_: {
+          # The upstream makefile does not make plugins depend on libRack.so.
+          makeFlags = [ "all" ];
+          postBuild = ''make plugins'';
+        }))
         freecad
 
         godot
