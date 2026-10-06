@@ -106,7 +106,7 @@
         "custom/power" = {
           format = coloured "#89dceb" (icon "f011");
           tooltip = false;
-          on-click = "printf 'Lock\\nLogout\\nReboot\\nShutdown' | rofi -dmenu -p power | xargs -r -I{} sh -c 'case {} in Lock) loginctl lock-session;; Logout) uwsm stop;; Reboot) systemctl reboot;; Shutdown) systemctl poweroff;; esac'";
+          on-click = "printf 'Lock\\nLogout\\nReboot\\nShutdown' | rofi -theme hyprland -dmenu -p power | xargs -r -I{} sh -c 'case {} in Lock) loginctl lock-session;; Logout) uwsm stop;; Reboot) systemctl reboot;; Shutdown) systemctl poweroff;; esac'";
         };
       }
       // sep "a"
@@ -165,6 +165,72 @@
     }
   '';
 
+  # Rofi theme matching the waybar look; kept separate so the i3 rofi theme is untouched
+  xdg.configFile."rofi/themes/hyprland.rasi".text = ''
+    /* Catppuccin Mocha */
+    * {
+      base: #1e1e2e;
+      surface: #313244;
+      sep: #45475a;
+      text: #cdd6f4;
+      pink: #f5c2e7;
+
+      background-color: transparent;
+      text-color: @text;
+      font: "Iosevka Nerd Font 14";
+    }
+
+    window {
+      width: 520px;
+      background-color: @base;
+      border: 2px;
+      border-color: @sep;
+    }
+
+    mainbox {
+      padding: 12px;
+      spacing: 8px;
+    }
+
+    inputbar {
+      padding: 8px 10px;
+      spacing: 8px;
+      background-color: @surface;
+      children: [ prompt, entry ];
+    }
+
+    prompt {
+      text-color: @pink;
+    }
+
+    entry {
+      placeholder: "search";
+      placeholder-color: @sep;
+    }
+
+    listview {
+      lines: 8;
+      scrollbar: false;
+      spacing: 2px;
+    }
+
+    element {
+      padding: 6px 10px;
+      spacing: 8px;
+      border: 0 0 2px 0;
+      border-color: transparent;
+    }
+
+    element selected {
+      background-color: @surface;
+      border-color: @pink;
+    }
+
+    element-icon {
+      size: 1.2em;
+    }
+  '';
+
   xdg.configFile."hypr/hyprland.lua".text = ''
     hl.env("XCURSOR_THEME", "Adwaita")
     hl.env("XCURSOR_SIZE", "24")
@@ -196,7 +262,7 @@
     end)
 
     hl.bind("SUPER + Return", hl.dsp.exec_cmd("kitty"))
-    hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi -show drun"))
+    hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi -theme hyprland -show drun"))
     hl.bind("SUPER + SHIFT + Q", hl.dsp.window.close({}))
     hl.bind("SUPER + F", hl.dsp.window.fullscreen({}))
     hl.bind("SUPER + SHIFT + SPACE", hl.dsp.window.float({}))
