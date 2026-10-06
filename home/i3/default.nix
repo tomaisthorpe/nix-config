@@ -16,7 +16,7 @@
       config = lib.mkForce null; # ignore all home-manager default i3 config
       extraConfig = builtins.readFile ./config/i3-config;
     };
-    scriptPath = ".xsession";
+    scriptPath = ".i3-session";
   };
 
   xdg.configFile = {

@@ -56,7 +56,7 @@ in
           name = "hm-session";
           manage = "window";
           start = ''
-            ${pkgs.runtimeShell} $HOME/.xsession &
+            ${pkgs.runtimeShell} $HOME/.i3-session &
             waitPID=$!
           '';
         }
