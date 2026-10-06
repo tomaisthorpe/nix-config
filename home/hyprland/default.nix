@@ -11,7 +11,20 @@
     wl-clipboard
   ];
 
+  home.pointerCursor = {
+    enable = true;
+    name = "Adwaita";
+    package = pkgs.adwaita-icon-theme;
+    size = 24;
+    hyprcursor.enable = true;
+  };
+
   xdg.configFile."hypr/hyprland.lua".text = ''
+    hl.env("XCURSOR_THEME", "Adwaita")
+    hl.env("XCURSOR_SIZE", "24")
+    hl.env("HYPRCURSOR_THEME", "Adwaita")
+    hl.env("HYPRCURSOR_SIZE", "24")
+
     hl.config({
       input = {
         kb_layout = "gb",
