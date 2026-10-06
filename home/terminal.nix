@@ -97,7 +97,7 @@
     ];
 
     # Ctrl-T (file search)
-    fileWidgetOptions = [
+    fileWidget.options = [
       "--preview 'bat --color=always --style=numbers --line-range=:500 {}'"
       "--preview-window 'right:50%:hidden'"
       "--bind 'ctrl-/:toggle-preview'"
@@ -105,14 +105,14 @@
     ];
 
     # Ctrl-R (history search)
-    historyWidgetOptions = [
+    historyWidget.options = [
       "--preview 'echo {}'"
       "--preview-window 'down:3:hidden:wrap'"
       "--bind 'ctrl-/:toggle-preview'"
     ];
 
     # Alt-C (cd to directory)
-    changeDirWidgetOptions = [
+    changeDirWidget.options = [
       "--preview 'ls -la {}'"
       "--preview-window 'right:50%:hidden'"
       "--bind 'ctrl-/:toggle-preview'"

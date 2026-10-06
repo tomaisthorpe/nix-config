@@ -24,6 +24,6 @@
   programs.rofi = {
     enable = true;
     theme = "Arc-Dark";
-    font = "Hack Nerd Font 9";
+    settings.font = "Hack Nerd Font 9";
   };
 }
