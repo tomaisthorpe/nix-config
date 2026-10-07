@@ -34,11 +34,9 @@ in
     LC_TIME = "en_GB.UTF-8";
   };
 
-  # use a fake session to skip desktop manager
-  # and let Home Manager take care of the X session
-  services.displayManager.defaultSession = "hm-session";
+  services.displayManager.defaultSession = "hyprland-uwsm";
 
-  # Keep the Home Manager i3 X session as the default and offer Hyprland in LightDM.
+  # Keep the Home Manager i3 X session available in LightDM.
   programs.hyprland = {
     enable = true;
     withUWSM = true;
