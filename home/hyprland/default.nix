@@ -5,19 +5,6 @@
   ...
 }:
 let
-  # Pick an entry from clipboard history and put it back on the clipboard
-  clipboardPicker = pkgs.writeShellScript "clipboard-picker" ''
-    export PATH=${
-      lib.makeBinPath [
-        cliphist
-        pkgs.rofi
-        pkgs.wl-clipboard
-      ]
-    }:$PATH
-    selection=$(cliphist list | rofi -theme hyprland -dmenu -p clipboard) || exit 0
-    [ -n "$selection" ] || exit 0
-    printf '%s' "$selection" | cliphist decode | wl-copy
-  '';
   # `cliphist wipe -older-than` isn't in a release yet (0.7.0 in nixpkgs), so build master
   cliphist = pkgs.cliphist.overrideAttrs (old: {
     version = "0.7.0-unstable-daa99da";
@@ -29,6 +16,19 @@ let
     };
     vendorHash = "sha256-fDl+ul1t2Ux1w5WcCo6YMJtrcC20o+eUEO3NNycSNvI=";
   });
+
+  # Upstream's rofi mode for cliphist: shows image entries as thumbnails
+  clipboardPicker = pkgs.writeShellScript "clipboard-picker" ''
+    export PATH=${
+      lib.makeBinPath [
+        cliphist
+        pkgs.gawk
+        pkgs.wl-clipboard
+        pkgs.coreutils
+      ]
+    }:$PATH
+    exec ${cliphist.src}/contrib/cliphist-rofi-img "$@"
+  '';
 in
 {
   home.packages = with pkgs; [
@@ -333,7 +333,7 @@ in
     }
 
     element-icon {
-      size: 1.2em;
+      size: 2.5em;
     }
   '';
 
@@ -369,6 +369,7 @@ in
     ${lib.optionalString isDesktop ''
       hl.monitor({ output = "DP-2", mode = "preferred", position = "0x0", scale = 1 })
       hl.monitor({ output = "DP-1", mode = "preferred", position = "auto-right", scale = 1, transform = 1 })
+      hl.workspace_rule({ workspace = "1", monitor = "DP-2", default = true })
     ''}
 
     -- Media, volume and brightness keys (wpctl comes with pipewire's wireplumber)
@@ -388,7 +389,7 @@ in
     hl.bind("SUPER + Print", hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy'))
 
     -- Clipboard history: rofi picker on SUPER + V
-    hl.bind("SUPER + V", hl.dsp.exec_cmd("${clipboardPicker}"))
+    hl.bind("SUPER + V", hl.dsp.exec_cmd("rofi -theme hyprland -modi clipboard:${clipboardPicker} -show clipboard -show-icons"))
 
     hl.on("hyprland.start", function()
       -- graphical-session.target isn't active in this session, so start the clipboard watchers by hand
