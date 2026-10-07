@@ -34,6 +34,7 @@
 
     interactiveShellInit = ''
       set fish_greeting # Disable greeting
+      devenv hook fish | source
     '';
 
     shellAliases = {
@@ -44,11 +45,6 @@
 
   # Similar to autojump and fasd
   programs.zoxide.enable = true;
-
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
 
   programs.tmux = {
     enable = true;
