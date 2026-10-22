@@ -32,6 +32,7 @@
     ];
 
     casks = [
+      "docker/tap/sbx"
       "ghostty"
       "slack"
       "spotify"
