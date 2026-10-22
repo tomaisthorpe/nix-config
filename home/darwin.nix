@@ -7,6 +7,7 @@
     devenv
     vit
     postgresql
+    redis
   ];
 
   programs.starship = {
