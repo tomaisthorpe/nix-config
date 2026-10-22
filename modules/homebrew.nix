@@ -6,6 +6,12 @@
 {
   homebrew = {
     enable = true;
+    onActivation = {
+      autoUpdate = false;
+      upgrade = true;
+      cleanup = "none";
+    };
+
     brews = [
       "buf"
       "cloc"
