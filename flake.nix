@@ -29,6 +29,16 @@
       flake = false;
     };
 
+    docker-tap = {
+      url = "github:docker/homebrew-tap";
+      flake = false;
+    };
+
+    hashicorp-tap = {
+      url = "github:hashicorp/homebrew-tap";
+      flake = false;
+    };
+
     nikitabobko-tap = {
       url = "github:nikitabobko/homebrew-tap";
       flake = false;
@@ -57,6 +67,8 @@
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
+      docker-tap,
+      hashicorp-tap,
       nikitabobko-tap,
       ...
     }@inputs:
@@ -124,6 +136,8 @@
                user = "tom";
 
                taps = {
+                 "docker/homebrew-tap" = docker-tap;
+                 "hashicorp/homebrew-tap" = hashicorp-tap;
                  "homebrew/homebrew-core" = homebrew-core;
                  "homebrew/homebrew-cask" = homebrew-cask;
                  "nikitabobko/homebrew-tap" = nikitabobko-tap;

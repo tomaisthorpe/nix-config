@@ -32,6 +32,22 @@
         "type": "github"
       }
     },
+    "docker-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792652001,
+        "narHash": "sha256-XsNYyJNY3EdBJ14N2hQixJBzRviLOaSxf3Cs1OlRJiI=",
+        "owner": "docker",
+        "repo": "homebrew-tap",
+        "rev": "14ed57245a3f62f50218e922b3cc200022ed61b8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "docker",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -67,6 +83,22 @@
       "original": {
         "owner": "hercules-ci",
         "repo": "gitignore.nix",
+        "type": "github"
+      }
+    },
+    "hashicorp-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792677859,
+        "narHash": "sha256-UoJUIwAuTcXpPHTI+AgtgRwFkuhCqqCFADa1zgiSoUg=",
+        "owner": "hashicorp",
+        "repo": "homebrew-tap",
+        "rev": "79e6335d806a37d08cb388efc8d0316604f2111e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hashicorp",
+        "repo": "homebrew-tap",
         "type": "github"
       }
     },
@@ -259,6 +291,8 @@
     },
     "root": {
       "inputs": {
+        "docker-tap": "docker-tap",
+        "hashicorp-tap": "hashicorp-tap",
         "home-manager": "home-manager",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",

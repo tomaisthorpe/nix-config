@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
 }:
@@ -36,10 +37,7 @@
       "spotify"
     ];
 
-    taps = [
-      "docker/tap"
-      "hashicorp/tap"
-    ];
+    taps = builtins.attrNames config.nix-homebrew.taps;
   };
 
   fonts.packages = with pkgs; [
