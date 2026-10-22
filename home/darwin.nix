@@ -44,6 +44,7 @@
       export PKG_CONFIG_PATH="/opt/homebrew/opt/libiconv/lib/pkgconfig:$PKG_CONFIG_PATH"
       export LDFLAGS="-L/opt/homebrew/opt/libiconv/lib"
       export PATH="$HOME/.local/bin:$PATH"
+      export PATH="$HOME/.opencode/bin:$PATH"
 
 
       export PYENV_ROOT="$HOME/.pyenv"
