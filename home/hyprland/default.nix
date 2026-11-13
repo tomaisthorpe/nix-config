@@ -406,6 +406,21 @@ in
     hl.bind("SUPER + SHIFT + SPACE", hl.dsp.window.float({}))
     hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("uwsm stop"))
 
+    -- Match i3's resize mode keys; Hyprland uses 10px steps rather than i3's tiled 10ppt.
+    hl.bind("SUPER + R", hl.dsp.submap("resize"))
+    hl.define_submap("resize", function()
+      for key, delta in pairs({
+        J = { -10, 0 }, left = { -10, 0 },
+        K = { 0, 10 }, down = { 0, 10 },
+        L = { 0, -10 }, up = { 0, -10 },
+        semicolon = { 10, 0 }, right = { 10, 0 },
+      }) do
+        hl.bind(key, hl.dsp.window.resize({ x = delta[1], y = delta[2], relative = true }), { repeating = true })
+      end
+      hl.bind("Return", hl.dsp.submap("reset"))
+      hl.bind("Escape", hl.dsp.submap("reset"))
+    end)
+
     for key, direction in pairs({ H = "l", J = "d", K = "u", L = "r", left = "l", down = "d", up = "u", right = "r" }) do
       hl.bind("SUPER + " .. key, hl.dsp.focus({ direction = direction }))
       hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ direction = direction }))
