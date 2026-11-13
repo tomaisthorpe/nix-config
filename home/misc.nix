@@ -72,9 +72,9 @@
 
         godot
 
-        # (blender.override {
-        #   cudaSupport = true;
-        # })
+        (blender.override {
+          cudaSupport = true;
+        })
 
         cudaPackages.cudatoolkit
 
